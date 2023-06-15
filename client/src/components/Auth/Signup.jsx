@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import "../../assets/css/signup.css";
 import Ellipse2 from "../../assets/img/Ellipse 2.svg";
 import Ellipse1 from "../../assets/img/Ellipse 1.svg";
@@ -12,9 +12,110 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import "swiper/css";
 import "swiper/css/pagination";
+import Input from  '../FormFIelds/Input'
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import Form from "react-validation/build/form";
+import CheckButton from "react-validation/build/button";
+import { isEmail } from "validator";
+// import {donnéesEtse} from "../Auth/SignupEnterprise"
 
-function Signup() {
+import { register } from "../../actions/auth";
+
+const required = (value, field) => {
+  return !value
+};
+const validEmail = (value) => {
+  return !isEmail(value)
+};
+
+const vusername = (value) => {
+  return value.length < 3 || value.length > 20;
+};
+
+const vpassword = (value) => {
+  return value.length < 6 || value.length > 40;
+};
+
+const vpasswordEquality = (value, test, asd, test3, test4) => {
+  console.log('value: ', )
+  return !(asd?.password[0]?.value === value);
+}
+
+function Signup(props) {
   const [value, setValue] = useState();
+  let navigate = useNavigate();
+
+  const form = useRef();
+  const checkBtn = useRef();
+
+  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [password1, setPassword1] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
+  const { isLoggedIn,entreprise } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
+  // const {entreprise} = useSelector((state)=> state.auth.entreprise)
+  console.log({entreprise})
+
+  const dispatch = useDispatch();
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+  const onChangePasswordConfirm = (e) => {
+    const password1 = e.target.value;
+    setPassword1(password1);
+  };
+  const onChangeEmail = (e) => {
+    const email = e.target.value;
+    setEmail(email);
+  };
+  console.log("required: ", required);
+  const [messageStatus, setMessageStatus] = useState(false);
+  useEffect(() => {
+    if (password === "" && password1 === "") {
+      setTimeout(() => {
+        setMessageStatus(false);
+      }, 8000);
+      setMessageStatus(true);
+    }
+  }, [password, password1]);
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+
+    setSuccessful(false);
+
+    form.current.validateAll();
+
+    if (checkBtn.current.context._errors.length === 0) {
+      // const valueofSingUser = registerEnterprise(username, password);
+      
+      const payload = {...(entreprise ? entreprise : {}), username, password}
+      console.log("value of SignUser :", payload)
+      dispatch(register(payload))
+        .then((response) => {
+          console.log({response})
+          console.log("this for the response on the register entreprise")
+          navigate("/");
+          window.location.reload();
+          setSuccessful(true);
+        })
+        .catch((error) => {
+          console.log("this is the catch of the register data",error)
+          setSuccessful(false);
+        });
+    }
+  };
   return (
     <>
       <div className="container__signup">
@@ -32,14 +133,14 @@ function Signup() {
           <br />
           <br />
           <div className="btn__style">
-            <a href="/fr/merchants">Connectez vous</a>
+            <a href="/">Connectez vous</a>
             <img src={ex} alt="" className="icon__style" />
           </div>
           <div className="container__swipper">
             <Swiper
               spaceBetween={20}
               grabCursor={true}
-              slidesPerView={2}
+              slidesPerView={3}
               centeredSlides={true}
               loop={true}
               speed={2000}
@@ -142,7 +243,7 @@ function Signup() {
             </Swiper>
           </div>
         </div>
-        <div className="second_block">
+        <Form className="second_block" onSubmit={handleRegister} ref={form}>
           <p className="second_block__title">Inscrivez vous</p>
           <div className="header_block">
             <div className="unclikable__information">
@@ -151,45 +252,67 @@ function Signup() {
             </div>
             <div className="etse_logo">
               <img src={building} alt="" />
+              <a href="/signupEtse" className="hide_link">
+                .
+              </a>
             </div>
           </div>
-          <input
+          <Input
             type="text"
             name="username"
-            className="input__style"
+            value={username}
+            onChange={onChangeUsername}
+            validations={[required, vusername]}
             placeholder="votre username"
           />
-          <input
-            type="email"
+          <Input
+            type="text"
             name="email"
-            className="input__style"
+            value={email}
+            onChange={onChangeEmail}
+            validations={[required, validEmail]}
             placeholder="votre email"
           />
           <PhoneInput
             international
             countryCallingCodeEditable={false}
-            defaultCountry="CMR"
+            defaultCountry="USA"
             value={value}
             onChange={setValue}
             placehorder="(xxx) xxxxxxxx"
           />
-          <input
-            type="password"
-            name="password"
+          <Input
+            type={'password'}
+            value={password}
+            name={'password'}
+            onChange={onChangePassword}
+            validations={[required, vpassword]}
+            placeholder="votre mote de passe"
             className="input__style"
-            placeholder="votre password"
           />
-          <input
-            type="password"
-            name="password"
+          <Input
+            type={'password'}
+            value={password1}
+            name={'confirm_password'}
+            onChange={onChangePasswordConfirm}
+            validations={[required, vpassword, vpasswordEquality]}
+            placeholder="confirmer mot de passe"
             className="input__style"
-            placeholder="confirmer le mot de passe"
           />
-
-          <button type="submit" className="btn__submit_form">
-            Suivant
-          </button>
-        </div>
+          {/* {password === password1 ? (
+            console.log("mot de passe correct")
+          ) : (
+            <div className="input__style__err">password is incorrect</div>
+          )} */}
+          <div disabled={loading}>
+            {loading && <span className=""></span>}
+            <button type="submit" className="btn__submit_form">
+              Enregister
+            </button>
+          </div>
+          <CheckButton style={{ display: "none" }} ref={checkBtn} />
+          {message && <div className="input__style__err">{message}</div>}
+        </Form>
         <img src={Ellipse1} alt="" className="svg__layout" />
       </div>
     </>

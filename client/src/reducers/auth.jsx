@@ -4,13 +4,14 @@ import {
     LOGIN_SUCCESS,
     LOGIN_FAIL,
     LOGOUT,
+    SAVE_ENTREPRISE
   } from "../actions/type";
   
   const user = JSON.parse(localStorage.getItem("user"));
   
   const initialState = user
-    ? { isLoggedIn: true, user }
-    : { isLoggedIn: false, user: null };
+    ? { isLoggedIn: true, user}
+    : { isLoggedIn: false, user: null, entreprise:null };
   
   export default function (state = initialState, action) {
     const { type, payload } = action;
@@ -37,6 +38,11 @@ import {
           ...state,
           isLoggedIn: false,
           employe: null,
+        };
+      case SAVE_ENTREPRISE:
+        return {
+          ...state,
+          entreprise:payload
         };
       case LOGOUT:
         return {

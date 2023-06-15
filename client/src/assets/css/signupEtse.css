@@ -7,7 +7,8 @@
   position: relative;
   width: 43%;
   left: 15px;
-  margin-top: -16.55%;
+  margin-top: -16%;
+
 }
 .first_block p {
   font-family: "Outfit";
@@ -18,7 +19,7 @@
   align-items: flex-end;
   margin-left: 15px;
   padding-top: 25px;
-  margin-top: 20px;
+  margin-top: 15px;
 }
 .first_block .first__title {
   font-family: "Poppins";
@@ -82,14 +83,14 @@
   position: absolute;
   right: 0;
   left: 84.4%;
-  top: 67.3%;
+  top: 66.87%;
 }
 
 .swiper-element {
   position: relative;
   border: 1px solid transparent;
   background-color: #506273;
-  width: 60vh;
+  width: 61vh;
   height: 30vh;
   padding: 20px;
   margin-left: -40%;
@@ -146,7 +147,7 @@
 }
 
 .swiper-wrapper {
-  gap: 170px;
+  gap: 255px;
 }
 
 .swiper-horizontal > .swiper-pagination-bullets,
@@ -247,6 +248,19 @@
   right: -53px;
   border-radius: 5px;
 }
+
+.hide_lin {
+  border: 1px solid transparent;
+  position: absolute;
+  /* padding: 15px; */
+  right: 375px;
+  top: 83px;
+  border-radius: 2px;
+  opacity: 0;
+  width: 12%;
+  height: 12%;
+  z-index: 15;
+}
 .second_block .select_domain{
     margin: auto;
     justify-content: center;
@@ -268,10 +282,10 @@
   margin: auto;
   justify-content: center;
   margin-bottom: 15px;
-  border: 3px solid rgba(241, 252, 255, 0.5);
+  border: 1px solid #506273;
   border-radius: 5px;
   width: 75%;
-  padding: 15px;
+  /* padding: 15px; */
   color: #b3c6d8;
   font-weight: 400;
   font-family: "Poppins";
@@ -280,6 +294,11 @@
   display: flex;
   align-items: flex-end;
 }
+
+.second_block .input__style:focus {
+  border: 3px solid black;
+}
+
 .second_block .forgot__pass_style {
     display: flex;
     justify-content: end;
@@ -358,10 +377,11 @@
   justify-content: center;
   align-items: flex-end;
   margin-bottom: 15px;
-  border: 3px solid rgba(241, 252, 255, 0.5);
+  /* border: 3px solid rgba(241, 252, 255, 0.5); */
+  border: 1px solid rgb(80, 98, 115)!important;
   border-radius: 5px;
   width: 56%;
-  padding: 15px;
+  padding: 13px;
   color: #b3c6d8;
   font-weight: 400;
   font-family: "Poppins";

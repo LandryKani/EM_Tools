@@ -1,23 +1,92 @@
-import React, { useState } from "react";
-import "../../assets/css/signupEtse.css";
+import React, { useEffect, useRef, useState } from "react";
+import "../../assets/css/finalizeSign.css";
 import Ellipse2 from "../../assets/img/Ellipse 2.svg";
 import Ellipse1 from "../../assets/img/Ellipse 1.svg";
-import user from "../../assets/img/user1.png";
-import building from "../../assets/img/Bulding1.png";
 import ex from "../../assets/img/ex.png";
+import imgLoad from "../../assets/img/imgLoad.png";
 import profile from "../../assets/img/profile.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Zoom } from "swiper";
-import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import CheckButton from "react-validation/build/button";
+import Form from "../FormFIelds/Form";
+import { registerlogo } from "../../actions/auth";
 
-function SignupEnterprise() {
+
+function FinalizeSignup(props) {
+  let navigate = useNavigate();
+  // const [value, setValue] = useState();
+  const form = useRef();
+  const checkBtn = useRef();
+  const dispatch = useDispatch();
+
   const [value, setValue] = useState();
+  const [file, setFile] = useState(null);
+  const [profil, setProfil] = useState(null);
+  const [photoUri, setPhotoUri] = useState();
+  const [profilUrl, setProfilUrl] = useState();
+  const [base64Image, setBase64Image] = useState(null);
+
+  const handlePhoto = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFile(file);
+      setPhotoUri(URL.createObjectURL(file));
+    }
+  };
+  // const handleProfil = (e) => {
+  //   const profil = e.target.files[0];
+  //   if (profil) {
+  //     setProfil(profil);
+  //     setProfilUrl(URL.createObjectURL(profil));
+  //   }
+  // };
+  const [uploadSuccessProfile, setUploadSuccessProfile] = useState(false);
+  useEffect(() => {
+    if (profil != null) {
+      setTimeout(() => {
+        setUploadSuccessProfile(false);
+      }, 8000);
+      setUploadSuccessProfile(true);
+    }
+  }, [profil]);
+
+  const convertToBase64 = (e) => {
+    const profil = e.target.files[0];
+    console.log("photo:",profil)
+    if (profil) {
+      setProfil(profil);
+      setProfilUrl(URL.createObjectURL(profil));
+    }
+    const reader = new FileReader();
+    reader.readAsDataURL(profil);
+    reader.onload = () => {
+      setBase64Image(reader.result);
+      console.log("image :", reader.result)
+    };
+  };
+  const handleFinalizeSign = async (e) => {
+    e.preventDefault();
+
+    // setLoading(true);
+
+    form.current.validateAll();
+
+    if (checkBtn.current.context._errors.length === 0) {
+      await dispatch(
+        registerlogo({base64Image})
+      );
+      navigate("/profile");
+    } else {
+      // setLoading(false);
+    }
+  };
   return (
     <>
-      <div className="container__signup">
+      <Form className="container__signup" onSubmit={handleFinalizeSign} ref={form}>
         <img src={Ellipse2} alt="" />
         <div className="first_block">
           <p>EM Tools</p>
@@ -32,14 +101,14 @@ function SignupEnterprise() {
           <br />
           <br />
           <div className="btn__style">
-            <a href="/fr/merchants">Connectez vous</a>
+            <a href="/">Connectez vous</a>
             <img src={ex} alt="" className="icon__style" />
           </div>
           <div className="container__swipper">
             <Swiper
               spaceBetween={20}
               grabCursor={true}
-              slidesPerView={2}
+              slidesPerView={3}
               centeredSlides={true}
               loop={true}
               speed={2000}
@@ -56,7 +125,8 @@ function SignupEnterprise() {
               className="mySwiper"
             >
               <SwiperSlide>
-                <div className="swiper-element">
+                <div
+                  className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -77,7 +147,8 @@ function SignupEnterprise() {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element">
+                <div
+                  className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -98,7 +169,8 @@ function SignupEnterprise() {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element">
+                <div
+                  className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -119,7 +191,8 @@ function SignupEnterprise() {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element">
+                <div
+                  className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -142,59 +215,58 @@ function SignupEnterprise() {
             </Swiper>
           </div>
         </div>
-        <div className="second_block">
-          <p className="second_block__title">Inscrivez vous</p>
-          <div className="header_block">
-              <div className="etse_logo">
-                <img src={user} alt="" />
-              </div>
-            <div className="unclikable_">
-              <img src={building} alt=""/>
-              <p>informations entreprise</p>
+        <p className="__title">Finalisez votre inscription</p>
+        <div className="second_bloc">
+          {file === null ? (
+            <div className="container__load">
+              <img src={imgLoad} alt="" className="load__img_style" />
+              <p className="recommandation_img">
+                Charger le logo de votre entreprise
+              </p>
             </div>
-          </div>
+          ) : (
+            <div className="">
+              <img src={base64Image} className="second_blog" alt="" />
+            </div>
+          )}
           <input
-            type="text"
-            name="username"
-            className="input__style"
-            placeholder="Nom entreprise"
+            type="file"
+            onChange={handlePhoto}
+            className="hide_input"
+            accept="image/*"
           />
-          <select className="select_domain">
-            <option value="1">Commerce</option>
-            <option value="2">Marketing</option>
-            <option value="3">Informatique</option>
-            <option value="4">Banque & Finance</option>
-            <option value="5">Autres</option>
-          </select>
-          <input
-            type="email"
-            name="email"
-            className="input__style"
-            placeholder="votre adresse mail"
-          />
-          <PhoneInput
-            international
-            countryCallingCodeEditable={false}
-            defaultCountry="CMR"
-            value={value}
-            onChange={setValue}
-            placehorder="(xxx) xxxxxxxx"
-          />
-          <input
-            type="text"
-            name="localisation"
-            className="input__style"
-            placeholder="Définissez votre localisation"
-          />
-
-          <button type="submit" className="btn__submit_form">
-            Suivant
-          </button>
         </div>
+        {
+          profil === null ? (
+            <button type="submit" className="btn__submit">
+              Ajouter ma photo
+            </button>
+          ) : (
+            <div className="">
+              <img src={base64Image} className="img__url" alt="" />
+            </div>
+          )
+          //  console.log("photo de profil", profilUrl)
+        }
+        {/* <div className="input__style__succes">
+              photo de profile enregistrée avec succes
+            </div> */}
+
+        {/* uploadSuccessProfile ? (
+            <div className="">
+              <img src={profilUrl} className="second_blog" alt="" />
+            </div>
+          ) : null */}
+        <input
+          type="file"
+          onChange={convertToBase64}
+          className="hide_input2"
+          accept="image/*"
+        />
         <img src={Ellipse1} alt="" className="svg__layout" />
-      </div>
+      </Form>
     </>
   );
 }
 
-export default SignupEnterprise;
+export default FinalizeSignup;

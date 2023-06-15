@@ -1,25 +1,90 @@
-import React, { useState } from "react";
-import "../../assets/css/finalizeSign.css";
+import React, { useState, useRef } from "react";
+import "../../assets/css/login.css";
 import Ellipse2 from "../../assets/img/Ellipse 2.svg";
 import Ellipse1 from "../../assets/img/Ellipse 1.svg";
 import ex from "../../assets/img/ex.png";
 import profile from "../../assets/img/profile.png";
+import im from "../../assets/img/im.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Zoom } from "swiper";
 import "swiper/css";
 import "swiper/css/pagination";
+import { useDispatch, useSelector } from "react-redux";
+import { Navigate, useNavigate } from "react-router-dom";
+import Form from "react-validation/build/form";
+import Input from "../FormFIelds/Input";
+import CheckButton from "react-validation/build/button";
 
-function FinalizeSignup() {
-    const [value, setValue] = useState();
-    return (
-      <>
-        <div className="container__signup">
-          <img src={Ellipse2} alt="" />
-          <div className="first_block">
+import { login } from "../../actions/auth.js";
+
+const required = (value, field) => {
+  return !value;
+};
+const vusername = (value) => {
+  return value.length < 3 || value.length > 20;
+};
+const vpassword = (value) => {
+  return value.length < 6 || value.length > 40;
+};
+
+function Login(props) {
+  let navigate = useNavigate();
+
+  const form = useRef();
+  const checkBtn = useRef();
+
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const { isLoggedIn } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
+
+  const dispatch = useDispatch();
+
+  const onChangeUsername = (e) => {
+    const username = e.target.value;
+    setUsername(username);
+  };
+
+  const onChangePassword = (e) => {
+    const password = e.target.value;
+    setPassword(password);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+
+    setLoading(true);
+
+    form.current.validateAll();
+
+    if (checkBtn.current.context._errors.length === 0) {
+      dispatch(login(username, password))
+        .then(() => {
+          navigate("/profile");
+          window.location.reload();
+        })
+        .catch(() => {
+          setLoading(false);
+        });
+    } else {
+      setLoading(false);
+    }
+  };
+
+  if (isLoggedIn) {
+    return <Navigate to="/profile" />;
+  }
+
+  return (
+    <>
+      <div className="background__elt">
+        <div className="container__login">
+          <img src={Ellipse2} alt="" className="svg_style" />
+          <div className="em__tools_command">
             <p>EM Tools</p>
-            <h1 className="first__title">
-              Ajouter votre entreprise et gérez vos projets
-            </h1>
+            <h1 className="first__title">Gérez vos projets avec</h1>
+            <h1 className="second__title">EMTools</h1>
             <p className="description">
               Sed ut perspiciatis unde omnis iste natus error sit voluptatem
               accusantium doloremque laudantium, totam rem aperiam, eaque ipsa
@@ -28,14 +93,14 @@ function FinalizeSignup() {
             <br />
             <br />
             <div className="btn__style">
-              <a href="/fr/merchants">Connectez vous</a>
+              <a href="/signupEtse">Inscrivez votre entreprise</a>
               <img src={ex} alt="" className="icon__style" />
             </div>
             <div className="container__swipper">
               <Swiper
                 spaceBetween={20}
                 grabCursor={true}
-                slidesPerView={2}
+                slidesPerView={3}
                 centeredSlides={true}
                 loop={true}
                 speed={2000}
@@ -138,14 +203,47 @@ function FinalizeSignup() {
               </Swiper>
             </div>
           </div>
-          <p className="second_block__title">Finalisez votre inscription</p>
-          <div className="second_block">
-          
+          <Form className="em__tools_form" onSubmit={handleLogin} ref={form}>
+            <div className="msg__form__err"></div>
+            <img src={im} alt="" id="img__style" />
+            <h1>Bienvenue</h1>
+            <p className="description">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+              eiusmod tempor incididunt ut labore
+            </p>
+            <Input
+              type="text"
+              name="username"
+              value={username}
+              onChange={onChangeUsername}
+              validations={[required, vusername]}
+              placeholder="votre username"
+            />
+            <Input
+              type={"password"}
+              value={password}
+              onChange={onChangePassword}
+              validations={[required, vpassword]}
+              placeholder="votre mote de passe"
+              className="input__style"
+            />
+            <a href="/" className="forgot__pass_style">
+              mot de passe oublié?
+            </a>
+            <div disabled={loading}>
+              {loading && <span className=""></span>}
+              <button type="submit" className="btn__submit_form">
+                Se connecter
+              </button>
+            </div>
+            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            {message && <div className="input__style__err">{message}</div>}
+          </Form>
         </div>
-          <img src={Ellipse1} alt="" className="svg__layout" />
-        </div>
-      </>
-    );
+        <img src={Ellipse1} alt="" className="svg__layout" />
+      </div>
+    </>
+  );
 }
 
-export default FinalizeSignup
+export default Login;

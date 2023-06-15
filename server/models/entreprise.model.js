@@ -5,6 +5,9 @@ module.exports=(sequelize,Sequelize)=>{
         },
         nom:{
             type: Sequelize.STRING,
+            validate: {
+                notEmpty: true
+            }
         },
         domaine:{
             type: Sequelize.STRING,

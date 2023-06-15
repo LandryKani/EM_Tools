@@ -8,6 +8,8 @@ const Op = db.Sequelize.Op;
 var bcrypt = require("bcryptjs");
 
 exports.createEntreprise = (req, res) => {
+  console.log("cls", req.body);
+
   const generateId = (length) => {
     let result = "";
     let tabChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
@@ -31,13 +33,13 @@ exports.createEntreprise = (req, res) => {
     req.body.photo != "" ? "PhotoProfil" + generateId(3) : "defaultValue";
   if (file != "defaultValue") {
     fs.writeFileSync(
-      __dirname + "/../public/ressources" + file + ".json",
+      __dirname + "/../public" + file + ".json",
       req.body.photo
     );
   }
   // create employe
 
-
+  
 
   //insert employe during creation of one enterprise
 
@@ -49,47 +51,59 @@ exports.createEntreprise = (req, res) => {
     logo: temp,
     localisation: req.body.localisation,
   })
-    .then((entreprise) => {
-      res.status(200).send({
-        message: "Entreprise created successfully!",
-      });
+    .then(async (entreprise) => {
+      // res.status(200).send({
+      //   message: "Entreprise created successfully!",
+      // });
       var Info = entreprise.id;
       console.log("info:", Info);
-      Employe.create({
+      await Employe.create({
         photo: file,
         username: req.body.username,
         email: req.body.email,
         tel: req.body.tel,
         password: bcrypt.hashSync(req.body.password, 9),
-        entrepriseId: Info
+        entrepriseId: Info,
       })
-      .then(employe => {
-        if (req.body.roles) {
-          Role.findAll({
-            where: {
-              name: {
-                [Op.or]: req.body.roles
-              }
-            }
-          }).then(roles => {
-            employe.setRoles(roles).then(() => {
-              res.send({ message: "Employe was registed susccessfully!" });
+        .then((employe) => {
+          if (req.body.roles) {
+            Role.findAll({
+              where: {
+                name: {
+                  [Op.or]: req.body.roles,
+                },
+              },
+            }).then((roles) => {
+              employe.setRoles(roles).then(() => {
+                res
+                  .status(200)
+                  .send({ message: "Employe was registed susccessfully!" });
+                console.log("Employe was registed susccessfully!");
+              });
             });
-          });
-        } else {
-          // user role = 1
-          employe.setRoles([2]).then(() => {
-            res.send({ message: "Employe was registered successfully!" });
-          });
-    
-        }
-    
-        var  responsable = req.body
-        console.log("responsable:", responsable)
-      })
-      .catch(err => {
-        res.status(500).send({ message: err.message });
-      });
+          } else {
+            // user role = 1
+            employe
+              .setRoles([2])
+              .then(() => {
+                res.send({ message: "Employe was registered successfully!" });
+                // console.log("Employe was registed susccessfully!")
+              })
+              .catch((error) => {
+                console.log(error);
+              });
+          }
+
+          var responsable = req.body;
+          console.log("responsable:", responsable);
+        })
+        .catch((err) => {
+          console.log("this isi the error of that message", err);
+          res.status(500).send({ message: err.message });
+        });
     })
-    .catch((error) => res.status(500).json(error));
+    .catch((error) => {
+      console.log("this is the error of the register entreprise", error);
+      res.status(500).json(error);
+    });
 };

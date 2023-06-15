@@ -2,24 +2,26 @@ import axios from "axios";
 
 const API_URL = "http://localhost:3005/api/";
 
-const registerEnterprise = (nom, domaine, email, tel, localisation) => {
+const registerEnterprise = (
+  data
+) => {
+  console.log("données",{...data})
   return axios.post(API_URL + "createEntreprise", {
-    nom,
-    domaine,
-    email,
-    tel,
-    localisation,
-  });
+    ...data
+  }).then((response)=>{
+    console.log(response)
+    return response.data
+  }).catch((error)=>console.log(error))
 };
 
-const register = (username, email, tel, password) => {
-  return axios.post(API_URL + "auth/signup", {
-    username,
-    email,
-    tel,
-    password,
-  });
-};
+// const register = (
+//   data
+// ) => {
+//   console.log("données:",data)
+//   // return axios.post(API_URL + "createEntreprise", {
+//     // data
+//   // });
+// };
 
 const login = (username, password) => {
   return axios
@@ -40,4 +42,4 @@ const logout = () => {
   localStorage.removeItem("employes");
 };
 
-export default { registerEnterprise, register, login, logout };
+export default { registerEnterprise, login, logout };
