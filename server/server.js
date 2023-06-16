@@ -58,6 +58,7 @@ app.listen(PORT, () => {
 require('../server/routes/auth.routes')(app);
 require('../server/routes/employe.routes')(app);
 require('../server/routes/entreprise.routes')(app);
+require('../server/routes/manageProject.routes')(app);
 
 
 // app.listen(3005, ()=>{console.log("server started on port 3005")})

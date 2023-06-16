@@ -28,6 +28,8 @@ db.employe= require("../models/Employe.model.js")(sequelize,Sequelize);
 db.role = require("../models/role.model.js")(sequelize, Sequelize);
 db.entreprise = require("../models/Entreprise.model.js")(sequelize,Sequelize);
 db.refreshToken = require("../models/refreshToken.model.js")(sequelize,Sequelize);
+db.projet= require("../models/projet.model.js")(sequelize,Sequelize)
+db.task= require("../models/task.model.js")(sequelize,Sequelize)
 
 
 db.role.belongsToMany(db.employe, {
@@ -50,6 +52,23 @@ db.refreshToken.belongsTo(db.employe, {
 });
 db.employe.hasOne(db.refreshToken, {
   foreignKey: 'employeId', targetKey: 'id'
+});
+db.task.belongsToMany(db.employe, {
+  through: "employe_tasks",
+  foreignKey: "taskId",
+  otherKey: "employeId"
+});
+db.employe.belongsToMany(db.task, {
+  through: "employe_tasks",
+  foreignKey: "employeId",
+  otherKey: "taskId"
+});
+db.task.belongsToMany(db.employe, { through: 'employe_tasks', foreignKey: 'taskId', otherKey: 'employeId' });
+db.employe.belongsToMany(db.task, { through: 'employe_tasks', foreignKey: 'employeId', otherKey: 'taskId' });
+db.projet.hasMany(db.task, { as: "tasks" });
+db.task.belongsTo(db.projet, {
+  foreignKey: "projetId",
+  as: "projet",
 });
 
 

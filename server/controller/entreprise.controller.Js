@@ -23,19 +23,19 @@ exports.createEntreprise = (req, res) => {
   var temp =
     req.body.logo != "" ? "LogoEntreprise" + generateId(2) : "defaultLogo";
   if (temp != "defaultLogo") {
-    fs.writeFileSync(
-      __dirname + "/../public/ressources" + temp + ".json",
-      req.body.logo
-    );
+    // fs.writeFileSync(
+    //   __dirname + "/../public/ressources" + temp + ".json",
+    //   req.body.logo
+    // );
   }
 
   var file =
     req.body.photo != "" ? "PhotoProfil" + generateId(3) : "defaultValue";
   if (file != "defaultValue") {
-    fs.writeFileSync(
-      __dirname + "/../public" + file + ".json",
-      req.body.photo
-    );
+    // fs.writeFileSync(
+    //   __dirname + "/../public" + file + ".json",
+    //   req.body.photo
+    // );
   }
   // create employe
 

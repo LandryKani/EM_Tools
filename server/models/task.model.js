@@ -1,27 +1,26 @@
 module.exports = (sequelize, Sequelize) => {
-    const Employe = sequelize.define('Employe', { // Utilisez Employe au lieu de employes
-      photo: {
-        type: Sequelize.BLOB,
-      },
-      username: {
+    const Task = sequelize.define('Task', { // Utilisez Task au lieu de tasks
+      titre: {
         type: Sequelize.STRING,
       },
-      email: {
+      description: {
         type: Sequelize.STRING,
       },
-      tel: {
+      status: {
         type: Sequelize.STRING,
       },
-      password: {
+      assign_to: { // Utilisez assign_to au lieu de assing_to
         type: Sequelize.STRING,
       },
-      resetToken: {
+      duree: {
         type: Sequelize.STRING,
       },
-      resetTokenExpiration: {
+      date_debut: {
+        type: Sequelize.DATE,
+      },
+      date_fin: {
         type: Sequelize.DATE,
       },
     });
-  
-    return Employe;
+    return Task;
   };
