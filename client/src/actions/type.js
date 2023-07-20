@@ -4,6 +4,9 @@ export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
 export const LOGIN_FAIL = "LOGIN_FAIL";
 export const LOGOUT = "LOGOUT";
 export const SAVE_ENTREPRISE = "SAVE_ENTREPRISE";
+export const SAVE_PROFILE = "SAVE_PROFILE";
+export const SAVE_EMPLOYE = "SAVE_EMPLOYE";
+export const GET_INFORMATION = "GET_INFORMATION";
 
 export const SET_MESSAGE = "SET_MESSAGE";
 export const CLEAR_MESSAGE = "CLEAR_MESSAGE";

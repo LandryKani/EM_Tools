@@ -1,0 +1,112 @@
+.search_bar {
+  border-radius: 10px;
+  background: #f9fbff;
+  width: 250px;
+  height: 40px;
+  padding: 0 15px;
+  box-shadow: 0px 0px 8px #fff;
+  display: flex;
+  align-items: center;
+}
+.input_search {
+  background-color: transparent;
+  border: none;
+  height: 100%;
+  font-family: "Poppins";
+  font-size: 14px;
+  color: #b5b7c0;
+  font-style: normal;
+  font-weight: 500;
+  border-radius: 5px;
+  width: 100%;
+  margin-left: 20px;
+}
+.input_search:focus {
+  outline: none;
+}
+.search_icon {
+  color: #7e7e7e;
+}
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 59px;
+  width: 1065px;
+}
+.container_employees {
+  width: 968px;
+  height: 552px;
+  flex-shrink: 0;
+  /* filter: drop-shadow(0px 10px 60px rgba(226, 236, 249, 0.5)); */
+}
+.table {
+  width: 1069px;
+  border-spacing: 0;
+}
+.table th {
+  padding: 10px;
+  border-bottom: 1px solid #eee;
+}
+.header_employees {
+  background: var(--blanc-white, #fcfeff);
+  text-align: left;
+  font-family: "Poppins";
+  font-size: 14px;
+  color: #b5b7c0;
+  font-style: normal;
+  font-weight: 500;
+  border-radius: 5px;
+}
+.table td {
+  width: 1069px;
+  padding: 10px;
+  text-align: justify;
+  font-family: "Poppins";
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 500;
+  border-radius: 5px;
+  letter-spacing: -0.14px;
+  line-height: 20px;
+}
+
+.title {
+  color: var(--black-black, #03101d);
+  font-size: 22px;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.right_elt {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  position: absolute;
+  right: 15px;
+}
+.add_employe {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  height: 39px;
+  width: 120px;
+  padding: 10px;
+  border: 1px solid #5932ea;
+  border-radius: 8px;
+  background: #5932ea;
+  color: #fff;
+  cursor: pointer;
+}
+.add_employe p {
+  font-family: "Poppins";
+  font-size: 14px;
+  font-weight: 500;
+}
+.icon {
+  color: #fff;
+  font-weight: 600;
+}

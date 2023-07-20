@@ -1,0 +1,80 @@
+.dashboard {
+  display: flex;
+
+}
+
+.page {
+  padding: 10px
+}
+
+.sideBar {
+  width: 270px;
+  height: 641px;
+  flex-shrink: 0;
+  background: var(--black-black, #03101d);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.sideBar h2 {
+  width: 100px;
+  height: 15px;
+  flex-shrink: 0;
+  color: #fcfeff;
+  font-size: 30px;
+  font-family: Outfit;
+  font-weight: 900;
+  padding: 30px;
+  margin-bottom: 25px;
+}
+.sideBar p {
+  color: var(--blanc-white, #fcfeff);
+  font-family: Outfit;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  
+}
+.aside {
+  height: 50%;
+  line-height: 50px;
+  padding: 0 10px;
+}
+.aside p {
+  color: var(--blanc-white, #fcfeff);
+  font-family: Outfit;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+}
+.caption {
+  font-family: Outfit;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  opacity: 0.5;
+  margin-left: 11%;
+  color: var(--blanc-background-page, #FAFEFF)!important;
+  margin-bottom: 20px;
+}
+.menu {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  width: 240px;
+  padding: 10px 15px;
+  border-radius: 5px;
+}
+
+.menuActive {
+  background: #fafeff4d;
+}
+
+.settings {
+  display: flex;
+  align-items: center;
+  padding: 20px ;
+  gap: 15px;
+  width: 240px;
+  border-radius: 5px;
+}

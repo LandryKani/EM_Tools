@@ -9,7 +9,7 @@ import profile from "../../assets/img/profile.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Zoom } from "swiper";
 import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
+import PhoneInputCustom from "../FormFIelds/PhoneInput";
 import "swiper/css";
 import "swiper/css/pagination";
 import Input from  '../FormFIelds/Input'
@@ -133,12 +133,12 @@ function Signup(props) {
           <br />
           <br />
           <div className="btn__style">
-            <a href="/">Connectez vous</a>
+            <a href="/login">Connectez vous</a>
             <img src={ex} alt="" className="icon__style" />
           </div>
           <div className="container__swipper">
             <Swiper
-              spaceBetween={20}
+              spaceBetween={265}
               grabCursor={true}
               slidesPerView={3}
               centeredSlides={true}
@@ -152,12 +152,11 @@ function Signup(props) {
               pagination={{
                 clickable: true,
               }}
-              navigation={true}
               modules={[Autoplay, Pagination, Zoom]}
               className="mySwiper"
             >
               <SwiperSlide>
-                <div className="swiper-element">
+                <div className="swiper-element" style={{ marginRight: '200%' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -178,7 +177,7 @@ function Signup(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element">
+                <div className="swiper-element" style={{ marginRight: '200%' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -199,7 +198,7 @@ function Signup(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element">
+                <div className="swiper-element" style={{ marginRight: '200%' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -220,7 +219,7 @@ function Signup(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element">
+                <div className="swiper-element" style={{ marginRight: '200%' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -273,13 +272,9 @@ function Signup(props) {
             validations={[required, validEmail]}
             placeholder="votre email"
           />
-          <PhoneInput
-            international
-            countryCallingCodeEditable={false}
-            defaultCountry="USA"
-            value={value}
-            onChange={setValue}
-            placehorder="(xxx) xxxxxxxx"
+          <PhoneInputCustom
+            name="phone_number"
+            validations={[required]}
           />
           <Input
             type={'password'}

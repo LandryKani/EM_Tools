@@ -1,0 +1,123 @@
+.container_profile {
+  padding: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 200px;
+  margin-left: 70px;
+  margin-top: 30px;
+  border-radius: 10px;
+  border: 1px solid #fcfeff;
+  z-index: 90;
+  background: var(--blanc-background, #f6fff8);
+}
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 30px;
+  margin-bottom: 20px;
+  width: 200px;
+  height: 200px;
+  border-radius: 200px;
+  background: var(--blanc-blanc, #fcfeff);
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+.profile p {
+  font-family: "Poppins";
+  font-size: 14px;
+  font-weight: 400;
+  color: #b3c6d8;
+  width: 150px;
+  text-align: center;
+}
+.upload_image {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 37%;
+  left: 48%;
+  width: 60px;
+  height: 60px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  border: 5px solid var(--blanc-background, #00a660);
+}
+.camera {
+  cursor: pointer;
+  width: 25px;
+  height: 25px;
+  color: #ff7f11;
+}
+.input_style {
+  width: 100% !important;
+}
+.design12 {
+  position: absolute;
+  z-index: -5;
+  top: 71%;
+  left: 20%;
+  width: 179px;
+  height: 179px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  stroke-width: 2px;
+  stroke: var(--secondaire-secondaire-1, #ffc700);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border: 5px solid var(--blanc-background, #ffc700);
+}
+.design13 {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  width: 190px;
+  height: 190px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  stroke-width: 2px;
+  stroke: var(--secondaire-secondaire-1, #00a660);
+  filter: drop-shadow(0px 4px 4px rgba(0, 0, 0, 0.25));
+  border: 5px solid var(--blanc-background, #00a660);
+}
+.hide {
+  cursor: pointer;
+  position: absolute;
+  top: 35%;
+  left: 48%;
+  width: 60px;
+  height: 60px;
+  opacity: 0;
+}
+
+.btn__submit_form {
+  outline: unset;
+  margin: auto;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  border: none;
+  background: #ffc700;
+  border-radius: 10px;
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn__submit_form button {
+  color: #031322;
+  font-family: "Poppins";
+  background-color: #ffc700;
+  border: none;
+  cursor: pointer;
+}
+.right_block button:focus {
+  outline: unset;
+}
+
+

@@ -1,0 +1,124 @@
+// exports.AssignTasks = async (req, res) => {
+//   // assign task by projects
+//   const { titre, description, assign_to } = req.body;
+//   const { projetId } = req.params;
+//   try {
+//     const projet = await Projet.findByPk(projetId);
+
+//     // Vérifie si 'assign_to' existe et est une chaîne
+//     if (typeof assign_to === "string" && assign_to.trim().length > 0) {
+//       const employees = assign_to.split(",").map((username) => ({ username }));
+//       const employe = await Employe.bulkCreate(employees, {
+//         ignoreDuplicates: true,
+//       });
+//       console.log("employes :", employe)
+
+//       const task = await Task.create({
+//         titre,
+//         description,
+//         projetId: projetId,
+//       });
+
+//       await task.setEmploye(employe);
+//       res.json(task);
+//     } else {
+//       res.status(400).send({ message: "assign_to is not defined or is empty" });
+//     }
+//   } catch (err) {
+//     console.error(err.message);
+//     res.status(500).send("Erreur serveur");
+//   }
+// };
+
+
+
+exports.askResetPasswordToken = async (req, res) => {
+  const {email} = req.body;
+  try {
+    const employe= await Employe.findOne({
+      where : {email}
+    })
+
+    if(!employe){
+      return res.status(404).send('Employe not found')
+    }
+
+    // const token = crypto.randomBytes(20).toString('hex');
+    // const expiryDate = new Date(Date.now()+3600000)//1 heure
+    const token = bcrypt.hashSync(email + Date.now(), 10);
+
+    const expiration = new Date();
+    expiration.setHours(expiration.getHours() + 1);
+
+    const resetData = {
+      email: email,
+      token: token,
+      expiration: expiration,
+    };
+    // const resetToken = await PasswordResetToken.create({}).then()
+    const resetToken = await PasswordResetToken.findOne({ where: { token: token } });
+    console.log("token: ",token)
+    console.log("reset token:",resetToken)
+    // await PasswordResetToken.destroy({
+    //   where: {
+    //     token: resetToken.token,
+    //   },
+    // });
+    await PasswordResetToken.create(resetData);
+
+    const mailOptions ={
+      from: 'landrykani020@gmail.com',
+      to: email,
+      subject: 'Password reset request',
+      text: 'please click on this link to reset your password: http://192.168.1.237:3005/reset-password/${token}'
+    };
+
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        console.log(error);
+        return res.status(500).send({ msg: "Error occurred" });
+      }
+      console.log(`Email sent: ${info.response}`);
+      res.status(200).send({ msg: "Email sent" });
+    });
+    const transporter = nodemailer.createTransport({
+      secure: true,
+      host: 'smtp.gmail.com',
+      port: 465,
+      auth:{
+        user: 'landrykani020@gmail.com',
+        pass: 'mbkq lihv sxrj ebnp'
+      }
+    })
+    console.log("données:",transporter)
+  } catch (err) {
+    console.log(err)
+    return res.status(500).send({ message: "erreur interne du serveur !" });
+  }
+
+  
+  
+  
+};
+
+exports.getResetPasswordWithToken = async (req,res)=>{
+  const token = req.params.token;
+
+  const resetToken = await PasswordResetToken.findOne({ where: { token: token } });
+
+  if (!resetToken) {
+    res.status(404).send({ msg: "Invalid token" });
+  } else if (new Date() > resetToken.expiration) {
+    res.status(404).send({ msg: "Token expired" });
+  } else {
+    const employe = await Employe.findOne({ where: { email: resetToken.email } });
+    if (!employe) {
+      res.status(404).send({ msg: "Employe not found" });
+    } else {
+      const hashedPassword = bcrypt.hashSync(password, 9);
+      await employe.update({ password: hashedPassword });
+      await PasswordResetToken.destroy({ where: { token: token } });
+      res.status(200).send({ msg: "Password reset successfully" });
+    }
+  }
+}

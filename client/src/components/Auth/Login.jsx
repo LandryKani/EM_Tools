@@ -61,8 +61,7 @@ function Login(props) {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          navigate("/profile");
-          window.location.reload();
+          navigate("/dashboard/profile");
         })
         .catch(() => {
           setLoading(false);
@@ -98,7 +97,7 @@ function Login(props) {
             </div>
             <div className="container__swipper">
               <Swiper
-                spaceBetween={20}
+                spaceBetween={265}
                 grabCursor={true}
                 slidesPerView={3}
                 centeredSlides={true}
@@ -112,7 +111,6 @@ function Login(props) {
                 pagination={{
                   clickable: true,
                 }}
-                navigation={true}
                 modules={[Autoplay, Pagination, Zoom]}
                 className="mySwiper"
               >
@@ -218,6 +216,8 @@ function Login(props) {
               onChange={onChangeUsername}
               validations={[required, vusername]}
               placeholder="votre username"
+              className="input__style"
+
             />
             <Input
               type={"password"}

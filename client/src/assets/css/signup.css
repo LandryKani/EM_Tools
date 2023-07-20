@@ -145,15 +145,15 @@
   top: -20px;
 }
 
-.swiper-wrapper {
-  gap: 255px;
+.mySwiper .swiper-wrapper {
+  gap: 150px;
 }
 
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
-  bottom: 10px !important;
+  bottom: -3px !important;
   top: var(--swiper-pagination-top, auto);
   left: 0;
   width: 100%;
@@ -361,13 +361,13 @@
   }
 } */
 
-.PhoneInput {
+.second_block .PhoneInput {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
   gap: 15px !important;
 }
-.PhoneInputCountry {
+.second_block .PhoneInputCountry {
   position: relative;
   align-self: center !important;
   display: flex;
@@ -381,7 +381,7 @@
   height: -1% !important;
   margin-right: unset !important;
 }
-.PhoneInputCountrySelect {
+.second_block .PhoneInputCountrySelect {
   position: absolute;
   top: 0;
   left: 0;
@@ -395,17 +395,16 @@
   cursor: pointer;
 }
 
-.PhoneInputInput {
+.second_block .PhoneInputInput {
   flex: unset !important;
   min-width: unset !important;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   margin-bottom: 15px;
-  /* border: 3px solid rgba(241, 252, 255, 0.5); */
   border: 1px solid rgb(80, 98, 115)!important;
   border-radius: 5px;
-  width: 56%;
+  /* width: 56%; */
   padding: 13px;
   color: #b3c6d8;
   font-weight: 400;
@@ -413,11 +412,11 @@
   font-size: 14px;
   line-height: 20px;
 }
-.PhoneInputCountryIcon {
-  color: white;
+.second_block .PhoneInputCountryIcon {
+    color: white;
 }
-.PhoneInputCountrySelectArrow {
-  color: white;
+.second_block .PhoneInputCountrySelectArrow {
+    color: white;
 }
 
 .input__style input {

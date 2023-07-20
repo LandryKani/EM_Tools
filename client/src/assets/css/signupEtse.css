@@ -8,7 +8,6 @@
   width: 43%;
   left: 15px;
   margin-top: -16%;
-
 }
 .first_block p {
   font-family: "Outfit";
@@ -146,15 +145,15 @@
   top: -20px;
 }
 
-.swiper-wrapper {
-  gap: 255px;
+.mySwiper .swiper-wrapper {
+  gap: 150px;
 }
 
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
-  bottom: 10px !important;
+  bottom: -3px !important;
   top: var(--swiper-pagination-top, auto);
   left: 0;
   width: 100%;
@@ -229,7 +228,7 @@
   justify-content: start;
   gap: 15px;
   color: #031322;
-  background: #FFC700;
+  background: #ffc700;
   padding: 12px;
   border-radius: 5px;
   width: 60%;
@@ -261,22 +260,22 @@
   height: 12%;
   z-index: 15;
 }
-.second_block .select_domain{
-    margin: auto;
-    justify-content: center;
-    margin-bottom: 15px;
-    border: 3px solid transparent;
-    border-radius: 5px;
-    width: 75%;
-    padding: 15px;
-    background: #031322;
-    color: #b3c6d8;
-    font-weight: 400;
-    font-family: "Poppins";
-    font-size: 14px;
-    line-height: 20px;
-    display: flex;
-    align-items: flex-end;  
+.second_block .select_domain {
+  margin: auto;
+  justify-content: center;
+  margin-bottom: 15px;
+  border: 3px solid transparent;
+  border-radius: 5px;
+  width: 75%;
+  padding: 15px;
+  background: #031322;
+  color: #b3c6d8;
+  font-weight: 400;
+  font-family: "Poppins";
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: flex-end;
 }
 .second_block .input__style {
   margin: auto;
@@ -300,49 +299,49 @@
 }
 
 .second_block .forgot__pass_style {
-    display: flex;
-    justify-content: end;
-    align-items: flex-end;
-    padding-right: 50px;
-    font-family: "Poppins";
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 10px;
-    color: #506273;
-    margin-bottom: 20px;
-  }
-  .second_block .btn_ {
-    outline: unset;
-    margin: auto;
-    display: block;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 15px;
-    border: none;
-    background: #FFC700;
-    border-radius: 10px;
-    padding: 15px;
-    width: 74%;
-    text-align: center;
-  }
-.second_block .btn_ button {
-    color: #031322;
-    font-family: "Poppins";
-    font-weight: 700;
-    background-color: #FFC700;
-    border: none;
+  display: flex;
+  justify-content: end;
+  align-items: flex-end;
+  padding-right: 50px;
+  font-family: "Poppins";
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 10px;
+  color: #506273;
+  margin-bottom: 20px;
 }
-.second_block button:focus{
-    outline: unset;
+.second_block .btn_ {
+  outline: unset;
+  margin: auto;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  border: none;
+  background: #ffc700;
+  border-radius: 10px;
+  padding: 15px;
+  width: 74%;
+  text-align: center;
+}
+.second_block .btn_ button {
+  color: #031322;
+  font-family: "Poppins";
+  font-weight: 700;
+  background-color: #ffc700;
+  border: none;
+}
+.second_block button:focus {
+  outline: unset;
 }
 
-.PhoneInput {
+.second_block .PhoneInput {
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  gap: 15px !important;
+  margin-left: 12%;
 }
-.PhoneInputCountry {
+.second_block .PhoneInputCountry {
   position: relative;
   align-self: center !important;
   display: flex;
@@ -356,7 +355,7 @@
   height: -1% !important;
   margin-right: unset !important;
 }
-.PhoneInputCountrySelect {
+.second_block .PhoneInputCountrySelect {
   position: absolute;
   top: 0;
   left: 0;
@@ -370,17 +369,18 @@
   cursor: pointer;
 }
 
-.PhoneInputInput {
+.second_block .PhoneInputInput {
   flex: unset !important;
   min-width: unset !important;
   display: flex;
   justify-content: center;
   align-items: flex-end;
   margin-bottom: 15px;
+  outline: none;
   /* border: 3px solid rgba(241, 252, 255, 0.5); */
-  border: 1px solid rgb(80, 98, 115)!important;
+  border: 1px solid rgb(80, 98, 115) !important;
   border-radius: 5px;
-  width: 56%;
+  /* width: 56%; */
   padding: 13px;
   color: #b3c6d8;
   font-weight: 400;
@@ -388,9 +388,9 @@
   font-size: 14px;
   line-height: 20px;
 }
-.PhoneInputCountryIcon {
-    color: white;
+.second_block .PhoneInputCountryIcon {
+  color: white;
 }
-.PhoneInputCountrySelectArrow {
-    color: white;
+.second_block .PhoneInputCountrySelectArrow {
+  color: white;
 }

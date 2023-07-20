@@ -1,0 +1,178 @@
+.header {
+  width: 1070px;
+  height: 62px;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.title {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+}
+.title h2 {
+  color: var(--black-black, #03101d);
+  font-size: 22px;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.title p {
+  color: var(--black-gris-1, #779bbb);
+  font-size: 12px;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.notif_admin {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: flex-end;
+}
+.profile_user {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+.user {
+  width: 35px;
+  height: 35px;
+  flex-shrink: 0;
+  border-radius: 35px;
+  background: url("../../assets/img/dasboardProfile.png"),
+    lightgray 0px -0.017px / 100% 125% no-repeat;
+}
+.username {
+  color: var(--black-black, #03101d);
+  font-size: 14px;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.description {
+  color: var(--black-gris-1, #779bbb);
+  font-size: 12px;
+  font-family: Outfit;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+}
+.second_menu {
+  width: 290px;
+  height: 555px;
+  flex-shrink: 0;
+  background: var(--blanc-white, #fcfeff);
+}
+.menuActive {
+  position: relative !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 5px;
+  margin-bottom: 3.5px;
+  background: var(--blanc-white, #fcfeff);
+  box-shadow: 0px 5px 10px 0px rgba(0, 0, 0, 0.05);
+}
+.menuActive p {
+  color: var(--black-black, #03101d);
+  font-family: Outfit;
+  font-size: 15px;
+  cursor: pointer;
+  font-style: normal;
+  font-weight: 700;
+}
+.menuInactive {
+  position: relative !important;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 10px;
+  padding: 10px;
+  cursor: pointer;
+  border-radius: 5px;
+  background: var(--blanc-white, #fcfeff);
+}
+.menuInactive p {
+  color: var(--black-gris-1, #779bbb);
+  font-size: 14px;
+  font-family: Outfit;
+  font-style: normal;
+  cursor: pointer;
+  font-weight: 400;
+  line-height: normal;
+}
+.descProject {
+  width: 36px;
+  height: 36px;
+  flex-shrink: 0;
+  border-radius: 36px;
+  background: lightgray 50% / contain no-repeat;
+}
+.fontawesomeActive {
+  position: absolute;
+  right: 10px;
+  color: #0f7174;
+  width: 19.5px;
+  height: 19.5px;
+  padding: 3px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 50px;
+  background-color: #fcfeff;
+  border: 1px solid #0f7174;
+}
+.fontawesomeInactive {
+  position: absolute;
+  right: 10px;
+  color: #779bbb;
+  width: 19.5px;
+  height: 19.5px;
+  padding: 3px;
+  flex-shrink: 0;
+  cursor: pointer;
+  border-radius: 50px;
+  background-color: #fcfeff;
+  border: 1px solid #779bbb;
+}
+.container {
+  display: flex;
+}
+.create_project {
+  display: flex;
+  width: 224px;
+  height: 52px;
+  padding: 15px 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  flex-shrink: 0;
+  border-radius: 5px;
+  background: var(--primaire-primaire-1, #00a660);
+  position: fixed;
+  bottom: 25px;
+  margin-left: 15px;
+  cursor: pointer;
+}
+.create_project p {
+  font-family: Poppins;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+  color: var(--blanc-blanc, #fcfeff);
+}
+.faPlus_Ico {
+  color: var(--blanc-blanc, #fcfeff);
+  width: 17px;
+  height: 17px;
+}

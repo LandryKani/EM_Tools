@@ -1,0 +1,14 @@
+<svg width="44" height="44" viewBox="0 0 44 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g id="Close_Ico">
+<g clip-path="url(#clip0_608_875)">
+<rect width="44" height="44" rx="5" fill="#61D7A5" fill-opacity="0.1"/>
+<path id="Vector" d="M30 14L14 30" stroke="#FCFEFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+<path id="Vector_2" d="M14 14L30 30" stroke="#FCFEFF" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+</g>
+</g>
+<defs>
+<clipPath id="clip0_608_875">
+<rect width="44" height="44" rx="5" fill="white"/>
+</clipPath>
+</defs>
+</svg>

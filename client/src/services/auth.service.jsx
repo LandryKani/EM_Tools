@@ -14,14 +14,35 @@ const registerEnterprise = (
   }).catch((error)=>console.log(error))
 };
 
-// const register = (
-//   data
-// ) => {
-//   console.log("données:",data)
-//   // return axios.post(API_URL + "createEntreprise", {
-//     // data
-//   // });
-// };
+const registerProfile = (data) =>{
+  console.log("profile",{...data})
+  return axios.put(API_URL + "updateEmploye/:id",{
+  ...data
+  }).then((response)=>{
+    console.log(response)
+    return response.data
+  }).catch((error)=>console.log(error))
+
+}
+
+const getProfile = (accessToken) => {
+  return axios.get(API_URL + "getInformation",{
+    headers:{"x-acces-token":accessToken}
+  }).then((response)=>{
+    console.log(response)
+    return response.data
+  }).catch((error)=>console.log(error))
+};
+
+const registerEmploye = (data) =>{
+  console.log("employe", {...data})
+  return axios.post(API_URL + "createEmploye",{
+    ...data
+  }).then((response)=>{
+    console.log(response)
+    return response.data
+  }).catch((error)=>console.log(error))
+}
 
 const login = (username, password) => {
   return axios
@@ -42,4 +63,4 @@ const logout = () => {
   localStorage.removeItem("employes");
 };
 
-export default { registerEnterprise, login, logout };
+export default { registerEnterprise, registerProfile,getProfile, registerEmploye, login, logout };

@@ -5,6 +5,9 @@ import {
   LOGIN_FAIL,
   LOGOUT,
   SAVE_ENTREPRISE,
+  SAVE_PROFILE,
+  SAVE_EMPLOYE,
+  GET_INFORMATION,
   SET_MESSAGE,
 } from "./type";
 
@@ -20,6 +23,34 @@ export const registerEnterprise = (dataEntreprise) => (dispatch) => {
     console.log(error);
   }
 };
+
+export  const registerProfile = (dataEmploye)=>{
+  return new Promise((resolve,reject)=>{
+    AuthService.registerProfile(dataEmploye).then(
+      (res)=>{
+        resolve({
+          type: SAVE_PROFILE,
+          payload: res,
+        }).catch(()=>reject())
+      }
+    )
+  })
+}
+
+
+
+export const getProfile = (accessToken)=>{
+  return new Promise((resolve, reject) => {
+    AuthService.getProfile(accessToken).then(
+      (res) => {
+        resolve({
+          type: GET_INFORMATION,
+          payload: res ,
+        })
+      }).catch(()=>reject())
+  })
+  
+}
 
 export const registerlogo= (logo)=>(dispatch) => {
   try {

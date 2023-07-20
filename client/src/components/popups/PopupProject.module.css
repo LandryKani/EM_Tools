@@ -1,0 +1,124 @@
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s linear 0.25s, opacity 0.25s linear;
+}
+.popup_open {
+  visibility: visible;
+  opacity: 1;
+  z-index: 10;
+  background: rgba(3, 19, 34, 0.8);
+  backdrop-filter: blur(2px);
+  transition-delay: 0s;
+}
+.popup_content {
+  position: relative !important;
+  background-color: white;
+  border-radius: 5px 5px 0px 0px;
+}
+.popup_content h2 {
+  font-family: "Poppins";
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  padding: 15px;
+}
+.header {
+  width: 568px;
+  height: 74px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-shrink: 0;
+  backdrop-filter: blur(2px);
+  background: var(--primaire-primaire-1, #00a660);
+  border-radius: 5px 5px 0px 0px;
+}
+.header h2 {
+  margin: auto;
+  color: var(--blanc-blanc, #fcfeff);
+  font-family: Poppins;
+  font-size: 22px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
+.projectIco {
+  position: absolute;
+  top: 5px;
+  padding: 5px;
+  width: 65px;
+  height: 57px;
+}
+.close_popup {
+  cursor: pointer;
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  padding: 5px;
+}
+.body {
+  padding: 14px 20px;
+  padding-top: 30px;
+}
+.description {
+  margin: auto;
+  justify-content: center;
+  margin-bottom: 20px;
+  border: 1px solid #506273;
+  overflow: hidden;
+  border-radius: 5px;
+  width: 100%;
+  height: 170px;
+  padding: 15px;
+  padding-left: 9px;
+  font-weight: 400;
+  font-family: "Poppins";
+  font-size: 14px;
+  line-height: 20px;
+  display: flex;
+  align-items: flex-end;
+  position: relative;
+}
+textarea:focus {
+  text-decoration: none;
+  border: 1px solid rgb(80, 98, 115) !important;
+}
+.btn__submit_form {
+  outline: unset;
+  margin: auto;
+  display: block;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 15px;
+  border: none;
+  font-family: "Poppins";
+  font-size: 14px;
+  color: #fff;
+  border-radius: 5px;
+  background: var(--primaire-primaire-1, #00a660);
+  padding: 15px;
+  width: 100%;
+  text-align: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+.btn__submit_form button {
+  color: #fff;
+  font-family: "Poppins";
+  background-color: #ffc700;
+  border: none;
+  cursor: pointer;
+}
+.right_block button:focus {
+  outline: unset;
+}

@@ -1,13 +1,18 @@
 const db = require("../models");
 const config = require("../config/auth.config");
-const { employe: Employe, role: Role, refreshToken: RefreshToken, resetPasswordToken: ResetPasswordToken } = db;
+const {
+  employe: Employe,
+  role: Role,
+  refreshToken: RefreshToken,
+  passwordResetToken: PasswordResetToken,
+} = db;
 
 const Op = db.Sequelize.Op;
-const nodemailer= require('nodemailer')
+const nodemailer = require("nodemailer");
 
 var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
-const crypto = require('crypto')
+const crypto = require("crypto");
 
 exports.signup = (req, res) => {
   // Save User to Database
@@ -93,6 +98,48 @@ exports.signin = (req, res) => {
     });
 };
 
+exports.getInformation = (req, res, next) => {
+  let token = req.headers["x-acces-token"];
+
+  if (!token) {
+    return res.status(403).send({
+      message: "No token provided !",
+    });
+  }
+
+  jwt.verify(token, config.secret, (err, decoded) => {
+    if (err) {
+      return catchError(err, res);
+    }
+    // req.employeId= decoded.id;
+    Employe.findOne({
+      where: {
+        id: decoded.id,
+      },
+    }).then((employe)=>{
+      var authorities = [];
+      employe.getRoles().then((roles) => {
+        console.log("roles:", roles);
+        for (let i = 0; i < roles.length; i++) {
+          authorities.push("ROLE_" + roles[i].name.toUpperCase());
+        }
+        res.status(200).send({
+          id: employe.id,
+          username: employe.username,
+          email: employe.email,
+          tel: employe.tel,
+          // resetPasswordToken: resetPasswordToken
+        });
+      });
+     
+    }) .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+    
+    
+  });
+};
+
 exports.refreshToken = async (req, res) => {
   const { refreshToken: requestToken } = req.body;
   if (requestToken == null) {
@@ -132,59 +179,141 @@ exports.refreshToken = async (req, res) => {
   }
 };
 
+exports.sendPasswordResetEmail = (req, res) => {
+  const email = req.body.email;
 
-exports.resetPasswordToken = async (req, res) => {
-  const {email} = req.body;
-  try {
-    const employe= await Employe.findOne({
-      where : {email}
-    })
-
-    if(!employe){
-      return res.status(404).send('Employe not found')
-    }
-
-    const token = crypto.randomBytes(20).toString('hex');
-    const expiryDate = new Date(Date.now()+3600000)//1 heure
-
-    employe.resetToken = token
-    employe.resetTokenExpiration = expiryDate;
-    await employe.save()
-
-    // let testAccount = await nodemailer.createTestAccount();
-
-    const transporter = nodemailer.createTransport({
-      secure: true,
-      host: 'smtp.gmail.com',
-      port: 465,
-      auth:{
-        user: 'landrykani020@gmail.com',
-        pass: 'mbkq lihv sxrj ebnp'
+  Employe.findOne({
+    where: {
+      email: email,
+    },
+  })
+    .then((employe) => {
+      if (!employe) {
+        // L'employé n'existe pas
+        return res.status(422).json({
+          errors: [
+            { title: "Invalid credentials", detail: "Employe does not exist" },
+          ],
+        });
       }
+
+      // Génération du token unique et insértion  d'une nouvelle ligne dans la table de tokens
+      const token = crypto.randomBytes(20).toString("hex");
+      const expiresAt = new Date(Date.now() + 3600000); // Le token expirera dans 1 heures
+
+      PasswordResetToken.create({
+        token: token,
+        employeeId: employe.id,
+        expires_at: expiresAt,
+      })
+        .then(() => {
+          // Envoie de l'e-mail de réinitialisation de mot de passe à l'employé
+          const transporter = nodemailer.createTransport({
+            // Configuration du serveur SMTP pour envoyer le courrier électronique
+            secure: true,
+            host: "smtp.gmail.com",
+            port: 465,
+            auth: {
+              user: "landrykani020@gmail.com",
+              pass: "mbkq lihv sxrj ebnp",
+            },
+          });
+
+          const mailOptions = {
+            to: email,
+            from: "landrykani020@gmail.com",
+            subject: "Password Reset",
+            text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+            Please click on the following link, or paste this into your browser to complete the process:\n\n
+            https://192.168.1.237:3005/reset_password/${token}\n\n
+            If you did not request this, please ignore this email and your password will remain unchanged.\n`,
+          };
+
+          transporter.sendMail(mailOptions, (err) => {
+            if (err) {
+              console.log(err);
+              return res.sendStatus(500);
+            }
+
+            res.status(200).json({
+              message:
+                "An email has been sent to your account with password reset instructions",
+            });
+          });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.sendStatus(500);
+        });
     })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
+};
 
-    console.log("données:",transporter)
+exports.resetPassword = (req, res) => {
+  const newPassword = req.body.password;
+  const token = req.params.token;
 
-    const mailOptions ={
-      from: 'landrykani020@gmail.com',
-      to: email,
-      subject: 'Password reset request',
-      text: 'please click on this link to reset your password: http://192.168.1.237:3005/reset-password/${token}'
-    };
-
-    transporter.sendMail(mailOptions,(err,info)=>{
-      if (err) {
-        console.log(err);
-        return res.status(500).send('internal servor error')
-      }else{
-        console.log(info)
-        return res.status(200).send('Password reset email sent')
+  PasswordResetToken.findOne({
+    where: {
+      token: token,
+      expires_at: { [Op.gt]: new Date() },
+    },
+  })
+    .then((tokenRow) => {
+      if (!tokenRow) {
+        // Token expiré ou invalide
+        return res.status(422).json({
+          errors: [
+            {
+              title: "Invalid credentials",
+              detail: "Invalid or expired token",
+            },
+          ],
+        });
       }
-    }) 
-  } catch (err) {
-    console.log(err)
-    return res.status(500).send({ message: "erreur interne du serveur !" });
-  }
-  
-  
+
+      Employe.findByPk(tokenRow.employee_id)
+        .then((employe) => {
+          if (!employe) {
+            // Employé inexistant
+            return res.status(422).json({
+              errors: [
+                {
+                  title: "Invalid credentials",
+                  detail: "Employe does not exist",
+                },
+              ],
+            });
+          }
+
+          // Mettre à jour le mot de passe de l'employé
+          employe.password = newPassword;
+
+          employe
+            .save()
+            .then(() => {
+              // Supprimer le token de la table de tokens de réinitialisation de mot de passe
+              tokenRow.destroy();
+
+              res.status(200).json({
+                message: "Password updated successfully",
+              });
+            })
+            .catch((err) => {
+              console.error(err);
+              res.sendStatus(500);
+            });
+        })
+        .catch((err) => {
+          console.error(err);
+          res.sendStatus(500);
+        });
+    })
+    .catch((err) => {
+      console.error(err);
+      res.sendStatus(500);
+    });
 };

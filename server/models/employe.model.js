@@ -1,5 +1,5 @@
 module.exports = (sequelize, Sequelize) => {
-    const Employe = sequelize.define('Employe', { // Utilisez Employe au lieu de employes
+    const Employe = sequelize.define('employes', { // Utilisez Employe au lieu de employes
       photo: {
         type: Sequelize.BLOB,
       },
@@ -14,13 +14,13 @@ module.exports = (sequelize, Sequelize) => {
       },
       password: {
         type: Sequelize.STRING,
-      },
-      resetToken: {
-        type: Sequelize.STRING,
-      },
-      resetTokenExpiration: {
-        type: Sequelize.DATE,
-      },
+      }
+      // resetToken: {
+      //   type: Sequelize.STRING,
+      // },
+      // resetTokenExpiration: {
+      //   type: Sequelize.DATE,
+      // },
     });
   
     return Employe;

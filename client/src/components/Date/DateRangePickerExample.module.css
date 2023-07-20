@@ -1,0 +1,29 @@
+.input {
+  margin-bottom: 15px;
+  border: 1px solid #506273;
+  border-radius: 5px;
+  height: 52px;
+  width: 49%;
+  font-weight: 400;
+  font-family: "Poppins";
+  font-size: 14px;
+  line-height: 20px;
+  display: inline-flex;
+  text-indent: 40px;
+}
+.date_container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.custom-calendar {
+  position: absolute;
+  top: calc(
+    100% + 10px
+  ); /* Ajustez cette valeur pour définir la distance entre l'input et le calendrier */
+  left: 0; /* Ajustez cette valeur pour définir l'alignement horizontal */
+  width: 280px; /* Ajustez cette valeur si nécessaire */
+  background-color: white; /* Couleur de fond du calendrier */
+  border: 1px solid #ccc; /* Bordure du calendrier */
+  z-index: 100; /* Ajustez cette valeur pour empiler correctement le calendrier */
+}

@@ -1,0 +1,80 @@
+.PhoneInput {
+  display: flex !important;
+  justify-content: center !important;
+  align-items: center !important;
+  gap: 15px !important;
+}
+.phone .PhoneInputCountry {
+  position: relative;
+  align-self: center !important;
+  display: flex;
+  justify-content: center !important;
+  align-items: center;
+  padding: 15px !important;
+  width: 25% !important;
+  background: #031322 !important;
+  border-radius: 4px !important;
+  margin-top: -15px !important;
+  height: -1% !important;
+  margin-right: unset !important;
+}
+.phone .PhoneInputCountrySelect {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  border: 1px solid #506273 !important;
+  opacity: 0;
+  color: #506273 !important;
+  transform: matrix(1, 0, 0, -1, 0, 0) !important;
+  cursor: pointer;
+}
+
+.phone .PhoneInputInput {
+  flex: unset !important;
+  min-width: unset !important;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  margin-bottom: 15px;
+  border: 1px solid rgb(80, 98, 115) !important;
+  border-radius: 5px;
+  width: 70%;
+  padding: 13px;
+  color: #b3c6d8;
+  font-weight: 400;
+  font-family: "Poppins";
+  font-size: 14px;
+  line-height: 20px;
+}
+.phone .PhoneInputInput .errorInput{
+  border: red 2px solid!important;
+  animation: shakeInput 0.5s forwards;
+}
+.phone .PhoneInputCountryIcon {
+  color: white;
+}
+.phone .PhoneInputCountrySelectArrow {
+  color: white;
+}
+
+
+@keyframes shakeInput {
+  0% {
+    transform: translateX(6px);
+  }
+  25% {
+    transform: translateX(-4.5px);
+  }
+  50% {
+    transform: translateX(3.5px);
+  }
+  75% {
+    transform: translateX(-2px);
+  }
+  100% {
+    transform: translateX(0);
+  }
+}

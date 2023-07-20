@@ -30,6 +30,7 @@ db.entreprise = require("../models/Entreprise.model.js")(sequelize,Sequelize);
 db.refreshToken = require("../models/refreshToken.model.js")(sequelize,Sequelize);
 db.projet= require("../models/projet.model.js")(sequelize,Sequelize)
 db.task= require("../models/task.model.js")(sequelize,Sequelize)
+db.passwordResetToken= require("../models/PasswordResetToken.js")(sequelize,Sequelize)
 
 
 db.role.belongsToMany(db.employe, {
@@ -70,6 +71,8 @@ db.task.belongsTo(db.projet, {
   foreignKey: "projetId",
   as: "projet",
 });
+// db.passwordResetToken.belongsTo(db.employe, { foreignKey: "employeId" });
+// db.employe.hasMany(db.passwordResetToken, { foreignKey: "employeId" })
 
 
 

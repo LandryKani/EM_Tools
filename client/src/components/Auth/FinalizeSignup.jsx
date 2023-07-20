@@ -101,12 +101,12 @@ function FinalizeSignup(props) {
           <br />
           <br />
           <div className="btn__style">
-            <a href="/">Connectez vous</a>
+            <a href="/login">Connectez vous</a>
             <img src={ex} alt="" className="icon__style" />
           </div>
           <div className="container__swipper">
             <Swiper
-              spaceBetween={20}
+              spaceBetween={265}
               grabCursor={true}
               slidesPerView={3}
               centeredSlides={true}
@@ -120,13 +120,12 @@ function FinalizeSignup(props) {
               pagination={{
                 clickable: true,
               }}
-              navigation={true}
               modules={[Autoplay, Pagination, Zoom]}
               className="mySwiper"
             >
               <SwiperSlide>
                 <div
-                  className="swiper-element">
+                  className="swiper-element" style={{ marginRight: '200px' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -148,7 +147,7 @@ function FinalizeSignup(props) {
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className="swiper-element">
+                  className="swiper-element" style={{ marginRight: '200px' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -170,7 +169,7 @@ function FinalizeSignup(props) {
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className="swiper-element">
+                  className="swiper-element" style={{ marginRight: '200px' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -192,7 +191,7 @@ function FinalizeSignup(props) {
               </SwiperSlide>
               <SwiperSlide>
                 <div
-                  className="swiper-element">
+                  className="swiper-element" style={{ marginRight: '200px' }}>
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem

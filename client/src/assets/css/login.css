@@ -159,15 +159,15 @@
   top: -20px;
 }
 
-.swiper-wrapper {
-  gap: 255px;
+.mySwiper .swiper-wrapper {
+  gap: 150px;
 }
 
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
-  bottom: 10px !important;
+  bottom: -3px !important;
   top: var(--swiper-pagination-top, auto);
   left: 0;
   width: 100%;
@@ -238,15 +238,15 @@
   text-indent: 0.5cm;
   color: #031322;
 }
-/* .em__tools_form .input__style {
+.em__tools_form .input__style {
   margin: auto;
-  display: block;
   justify-content: center;
-  align-items: center;
   margin-bottom: 15px;
-  border: 1px solid #f7fff8;
+  border: 1px solid #506273;
+  overflow: hidden;
   border-radius: 5px;
-  width: 80%;
+  width: 75%;
+  height: 52px;
   color: #b3c6d8;
   font-weight: 400;
   font-family: "Poppins";
@@ -254,7 +254,8 @@
   line-height: 20px;
   display: flex;
   align-items: flex-end;
-} */
+  position: relative;
+}
 .btn__password {
   position: absolute;
   margin-top: -52px;

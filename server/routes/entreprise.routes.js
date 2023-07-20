@@ -7,4 +7,7 @@ module.exports = function(app){
           verifySignUp.checkRolesExisted
         ],controller.createEntreprise
       );
+    app.put("/api/updateEmploye/:id", controller.updateEmploye)
+    app.delete("/api/deleteEmploye/:id", controller.deleteEmploye)
+    app.post("/api/createEmploye", controller.createEmploye)
 }

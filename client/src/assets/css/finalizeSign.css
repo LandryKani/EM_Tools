@@ -146,15 +146,15 @@
   top: -20px;
 }
 
-.swiper-wrapper {
-  gap: 255px;
+.mySwiper .swiper-wrapper {
+  gap: 150px;
 }
 
 .swiper-horizontal > .swiper-pagination-bullets,
 .swiper-pagination-bullets.swiper-pagination-horizontal,
 .swiper-pagination-custom,
 .swiper-pagination-fraction {
-  bottom: 10px !important;
+  bottom: -3px !important;
   top: var(--swiper-pagination-top, auto);
   left: 0;
   width: 100%;
