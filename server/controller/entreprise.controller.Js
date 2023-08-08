@@ -3,6 +3,10 @@ const Employe = db.employe;
 const Role = db.role;
 const Entreprise = db.entreprise;
 const fs = require("fs");
+const jwt = require('jsonwebtoken');
+const config = require('../config/auth.config.js');
+
+
 
 const Op = db.Sequelize.Op;
 var bcrypt = require("bcryptjs");
@@ -57,12 +61,12 @@ exports.createEntreprise = (req, res) => {
       //   message: "Entreprise created successfully!",
       // });
       entrepriseId = entreprise.id;
-      console.log("info:", Info);
+      console.log("info:", entrepriseId);
       await Employe.create({
         photo: file,
         username: req.body.username,
-        email: req.body.email,
-        tel: req.body.tel,
+        e_mail: req.body.e_mail,
+        numtel: req.body.numtel,
         password: bcrypt.hashSync(req.body.password, 9),
         entrepriseId: entrepriseId,
       })
@@ -110,29 +114,28 @@ exports.createEntreprise = (req, res) => {
 };
 
 exports.createEmploye = async (req, res)=>{
-  const generateId = (length) => {
-    let result = "";
-    let tabChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
-    let tabCharLength = tabChar.length;
-    for (let i = 0; i < length; i++) {
-      result += tabChar.charAt(Math.floor(Math.random() * tabCharLength));
-    }
-    return result;
-  };
+  // const generateId = (length) => {
+  //   let result = "";
+  //   let tabChar = "ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789";
+  //   let tabCharLength = tabChar.length;
+  //   for (let i = 0; i < length; i++) {
+  //     result += tabChar.charAt(Math.floor(Math.random() * tabCharLength));
+  //   }
+  //   return result;
+  // };
 
-  var file =
-    req.body.photo != "" ? "PhotoProfil" + generateId(3) : "defaultValue";
-  if (file != "defaultValue") {
-    fs.writeFileSync(
-      __dirname + "/../public" + file + ".json",
-      req.body.photo
-    );
-  }
+  // var file =
+  //   req.body.photo != "" ? "PhotoProfil" + generateId(3) : "defaultValue";
+  // if (file != "defaultValue") {
+  //   fs.writeFileSync(
+  //     __dirname + "/../public" + file + ".json",
+  //     req.body.photo
+  //   );
+  
   await Employe.create({
-    photo: file,
     username: req.body.username,
-    email: req.body.email,
-    tel: req.body.tel,
+    e_mail: req.body.e_mail,
+    numtel: req.body.numtel,
     password: bcrypt.hashSync(req.body.password, 9),
     entrepriseId: req.body.entrepriseId,
   })
@@ -169,10 +172,41 @@ exports.createEmploye = async (req, res)=>{
       console.log("responsable:", responsable);
     })
     .catch((err) => {
-      console.log("this isi the error of that message", err);
+      console.log("this is the error of that message", err);
       res.status(500).send({ message: err.message });
     });
 }
+
+exports.listEmploye = async (req, res) => {
+  try {
+    const employes = await Employe.findAll();
+    const employeList = [];
+    
+    for (let i = 0; i < employes.length; i++) {
+      const employe = employes[i];
+      const authorities = [];
+      
+      const roles = await employe.getRoles();
+      
+      for (let j = 0; j < roles.length; j++) {
+        authorities.push(roles[j].name.toUpperCase());
+      }
+      
+      employeList.push({
+        id: employe.id,
+        username: employe.username,
+        e_mail: employe.e_mail,
+        numtel: employe.numtel,
+        roles: authorities,
+      });
+    }
+    
+    res.status(200).send(employeList);
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Erreur serveur");
+  }
+};
 
 exports.deleteEmploye= (req,res)=>{
    const EmployeId = req.params
@@ -193,17 +227,76 @@ exports.deleteEmploye= (req,res)=>{
    })
 }
 
-exports.updateEmploye = (req,res)=>{
-  const EmployeId = req.params
-  Employe.update(req.body,{
-    where:{
-      id: EmployeId.id,
-    }
-  }).then((lineUpdated)=>{
-    lineUpdated ? res.status(200).send({msg: "lines updated successfully"}): res.status(404).send({msg: "No lines were updated, sorry!"})
-  }).catch((err)=>{
-    console.log(err)
-    res.status(500).send(err)
-  })
-}
+exports.updateEmploye = (req, res) => {
+  const employeId = req.params.id;
 
+  // Récupère les détails de l'employé avant la modification
+  Employe.findByPk(employeId)
+    .then((employe) => {
+      if (!employe) {
+        return res.status(404).send({ msg: "Employee not found." });
+      }
+
+      // Effectue la mise à jour des détails de l'employé
+      Employe.update(req.body, {
+        where: {
+          id: employeId,
+        },
+      })
+        .then(() => {
+          // Récupère les détails de l'employé après la modification
+          Employe.findByPk(employeId)
+            .then((updatedEmploye) => {
+              // Renvoie les détails de l'employé après la modification
+              res.status(200).send({...updatedEmploye});
+            })
+            .catch((err) => {
+              console.log(err);
+              res.status(500).send(err);
+            });
+        })
+        .catch((err) => {
+          console.log(err);
+          res.status(500).send(err);
+        });
+    })
+    .catch((err) => {
+      console.log(err);
+      res.status(500).send(err);
+    });
+};
+exports.updatePersonalInformation = (req,res)=>{
+  jwt.verify(req.headers['x-access-token'], config.secret, (err, decoded) => {
+    if (err) {
+      return catchError(err, res);
+    }
+    // req.employeId= decoded.id;
+    Employe.update(req.body,{
+      where: {
+        id: decoded.id,
+      },
+    }).then( async (employe)=>{
+      console.log("this is the update employer", employe)
+      if(employe.length != 0){
+        const user = await Employe.findOne({
+          where:{
+            id:decoded.id
+          }
+        })
+        res.status(200).send({
+          id: user.id,
+          username: user.username,
+          e_mail: user.e_mail,
+          numtel: user.numtel,
+          // resetPasswordToken: resetPasswordToken
+        })
+      }
+     ;
+     
+    }) .catch((err) => {
+      res.status(500).send({ message: err.message });
+    });
+    
+    
+  });
+}

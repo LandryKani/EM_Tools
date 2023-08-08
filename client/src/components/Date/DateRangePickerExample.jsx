@@ -6,20 +6,30 @@ import style from "./DateRangePickerExample.module.css";
 import './style.css'
 
 function DateRangePickerExample() {
-  const [startDate, setStartDate] = useState();
-  const [endDate, setEndDate] = useState();
+  const [dateDebut, setDateDebut] = useState();
+  const [dateFin, setDateFin] = useState();
+
+  const handleDateSelect = (date) => {
+    if (!dateDebut || (dateDebut && dateFin)) {
+      setDateDebut(date);
+      setDateFin(null);
+    } else {
+      setDateFin(date);
+    }
+  };
   return (
     <>
       <DateRangePicker
-        startDate={startDate}
-        endDate={endDate}
-        onStartDateChange={setStartDate}
-        onEndDateChange={setEndDate}
+        startDate={dateDebut}
+        endDate={dateFin}
+        onStartDateChange={setDateDebut}
+        onEndDateChange={setDateFin}
         minimumDate={new Date()}
         minimumLength={1}
         format="dd MMM yyyy"
         locale={enGB}
         calendarClass={style.custom_calendar}
+        onFocus={handleDateSelect}
       >
         {({ startDateInputProps, endDateInputProps, focus }) => (
           <div className={style.date_container}>
@@ -29,6 +39,7 @@ function DateRangePickerExample() {
                 +(focus === START_DATE ? "-foused" : ""),
               ].join(" ")}
               {...startDateInputProps}
+              value={dateDebut && dateDebut.toDateString()}
               placeholder="Date de début"
             />
             <input
@@ -37,6 +48,7 @@ function DateRangePickerExample() {
                 +(focus === END_DATE ? "-foused" : ""),
               ].join(" ")}
               {...endDateInputProps}
+              value={dateFin && dateFin.toDateString()}
               placeholder="Date de fin"
             />
           </div>

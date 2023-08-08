@@ -1,0 +1,83 @@
+.container__search__admin .input-icon {
+    padding: 3px;
+    text-align: left;
+    background: #fff;
+    border-radius: 100px;
+    display: flex;
+    justify-content: space-evenly;
+    border: solid 1px rgb(213, 213, 213);
+    max-width: 100%;
+}
+.acti{
+    width: 50%;
+    /* margin: 80px 30px; */
+    margin: auto;
+    display: flex;
+
+}
+
+.container__search__admin{
+    margin: 50px 40px 50px 0;
+    width: 50%;
+}
+.container__search__admin  .input-search {
+    width: 90%;
+    padding: 7px;
+    border: none;
+    border-radius: 500px;
+    box-sizing: border-box;
+}
+
+.activeAds{
+    color:  rgb(14, 114, 88);
+    padding-right: 30px;
+}
+
+.inactiveAds{
+    color:  rgb(255, 196, 0);
+
+}
+
+@media (max-width: 730px){
+    .search-div{
+        display: block;
+    }
+    .acti{
+        margin-left: 0px;
+
+        width: 100%;
+    }
+    .container__search__admin{
+        width: 95%;
+    }
+}
+
+@media (max-width: 400px){
+    .acti{
+        display: block;
+    }
+}
+
+.options__ads{
+    padding: 3px; 
+    position: absolute;
+    right: 1%;
+}
+
+.options__ads svg{
+    margin: 7px;
+    cursor: pointer;
+}
+
+.options__ads svg path{
+    fill: #fff;
+}
+
+.svg-white svg path{
+    fill: #fff;
+}
+
+.svg-white svg, .svg-white img{
+    margin-right: 10px;
+}
+

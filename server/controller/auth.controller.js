@@ -14,37 +14,37 @@ var jwt = require("jsonwebtoken");
 var bcrypt = require("bcryptjs");
 const crypto = require("crypto");
 
-exports.signup = (req, res) => {
-  // Save User to Database
-  Employe.create({
-    username: req.body.username,
-    email: req.body.email,
-    password: bcrypt.hashSync(req.body.password, 9),
-  })
-    .then((employe) => {
-      if (req.body.roles) {
-        Role.findAll({
-          where: {
-            name: {
-              [Op.or]: req.body.roles,
-            },
-          },
-        }).then((roles) => {
-          employe.setRoles(roles).then(() => {
-            res.send({ message: "Employe was registed susccessfully!" });
-          });
-        });
-      } else {
-        // user role = 1
-        Employe.setRoles([1]).then(() => {
-          res.send({ message: "Employe was registered successfully!" });
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).send({ message: err.message });
-    });
-};
+// exports.signup = (req, res) => {
+//   // Save User to Database
+//   Employe.create({
+//     username: req.body.username,
+//     e_mail: req.body.e_mail,
+//     password: bcrypt.hashSync(req.body.password, 9),
+//   })
+//     .then((employe) => {
+//       if (req.body.roles) {
+//         Role.findAll({
+//           where: {
+//             name: {
+//               [Op.or]: req.body.roles,
+//             },
+//           },
+//         }).then((roles) => {
+//           employe.setRoles(roles).then(() => {
+//             res.send({ message: "Employe was registed susccessfully!" });
+//           });
+//         });
+//       } else {
+//         // user role = 1
+//         Employe.setRoles([1]).then(() => {
+//           res.send({ message: "Employe was registered successfully!" });
+//         });
+//       }
+//     })
+//     .catch((err) => {
+//       res.status(500).send({ message: err.message });
+//     });
+// };
 
 exports.signin = (req, res) => {
   Employe.findOne({
@@ -100,14 +100,15 @@ exports.signin = (req, res) => {
 
 exports.getInformation = (req, res, next) => {
   let token = req.headers["x-acces-token"];
+  console.log("this is my request",req)
 
-  if (!token) {
+  if (!req.headers['x-access-token']) {
     return res.status(403).send({
       message: "No token provided !",
     });
   }
 
-  jwt.verify(token, config.secret, (err, decoded) => {
+  jwt.verify(req.headers['x-access-token'], config.secret, (err, decoded) => {
     if (err) {
       return catchError(err, res);
     }
@@ -126,8 +127,8 @@ exports.getInformation = (req, res, next) => {
         res.status(200).send({
           id: employe.id,
           username: employe.username,
-          email: employe.email,
-          tel: employe.tel,
+          e_mail: employe.e_mail,
+          numtel: employe.numtel,
           // resetPasswordToken: resetPasswordToken
         });
       });

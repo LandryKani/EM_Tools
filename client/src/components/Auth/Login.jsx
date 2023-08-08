@@ -61,7 +61,7 @@ function Login(props) {
     if (checkBtn.current.context._errors.length === 0) {
       dispatch(login(username, password))
         .then(() => {
-          navigate("/dashboard/profile");
+          navigate("/dashboard");
         })
         .catch(() => {
           setLoading(false);

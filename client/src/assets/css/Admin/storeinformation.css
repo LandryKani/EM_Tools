@@ -1,0 +1,65 @@
+.head__padding__store {
+    margin: 70px 10px;
+}
+
+.store__informations{
+    width: 45%;
+}
+
+.title__information {
+    color: rgb(69, 71, 88);
+    font-size: 22px;
+    font-weight: 500;
+}
+
+.form__inormation__store {
+    margin: 30px 0px;
+    width: 100%;
+    font-family: var(--font-secondary), sans-serif;
+    /* min-width: 400px; */
+}
+
+.input__store {
+    width: 100%;
+    height: 50px;
+    margin: 5px 0px 25px 0px;
+    border: solid 1px rgb(159, 167, 171);
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    padding: 20px;
+    font-family: var(--font-secondary), sans-serif;
+}
+
+.form__inormation__store label {
+    color: rgb(0, 0, 0);
+    font-size: 13px;
+    font-weight: 400;
+    font-family: var(--font-secondary), sans-serif;
+}
+
+.input__store:focus {
+    border-bottom: 2px solid var(--third-color);
+    transition: .2s;
+}
+
+.form__inormation__store .select__store{
+    width: 100%;
+    height: 50px;
+    margin: 5px 0px 25px 0px;
+    border: solid 1px rgb(159, 167, 171);
+    border: 1px solid #D1D1D1;
+    border-radius: 5px;
+    padding: 0px 20px;
+    font-family: var(--font-secondary), sans-serif;   
+}
+
+.form__inormation__store .select__store:focus{
+    border-bottom: 2px solid var(--third-color);
+
+}
+
+@media(max-width:900px){
+    .store__informations {
+        width: 90%;
+    }
+}

@@ -9,7 +9,7 @@ import profile from "../../assets/img/profile.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Zoom } from "swiper";
 import "react-phone-number-input/style.css";
-import PhoneInputCustom from "../FormFIelds/PhoneInput";
+import PhoneInput from "react-phone-number-input";
 import "swiper/css";
 import "swiper/css/pagination";
 import Input from  '../FormFIelds/Input'
@@ -43,14 +43,14 @@ const vpasswordEquality = (value, test, asd, test3, test4) => {
 }
 
 function Signup(props) {
-  const [value, setValue] = useState();
+  const [numtel, setNumtel] = useState();
   let navigate = useNavigate();
 
   const form = useRef();
   const checkBtn = useRef();
 
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [e_mail, setE_mail] = useState("");
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
   const [loading, setLoading] = useState(false);
@@ -61,6 +61,7 @@ function Signup(props) {
   console.log({entreprise})
 
   const dispatch = useDispatch();
+  
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -76,9 +77,14 @@ function Signup(props) {
     setPassword1(password1);
   };
   const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
+    const e_mail = e.target.value;
+    setE_mail(e_mail);
   };
+  // const onChangePhoneNumber = (e) => {
+  //   const inputPhoneNumber = e.target.value;
+  //   setPhoneNumber(inputPhoneNumber);
+  //   console.log("numéro tel:", inputPhoneNumber);
+  // };
   console.log("required: ", required);
   const [messageStatus, setMessageStatus] = useState(false);
   useEffect(() => {
@@ -100,14 +106,13 @@ function Signup(props) {
     if (checkBtn.current.context._errors.length === 0) {
       // const valueofSingUser = registerEnterprise(username, password);
       
-      const payload = {...(entreprise ? entreprise : {}), username, password}
+      const payload = {...(entreprise ? entreprise : {}), username, password,e_mail,numtel}
       console.log("value of SignUser :", payload)
       dispatch(register(payload))
         .then((response) => {
           console.log({response})
           console.log("this for the response on the register entreprise")
           navigate("/");
-          window.location.reload();
           setSuccessful(true);
         })
         .catch((error) => {
@@ -133,7 +138,7 @@ function Signup(props) {
           <br />
           <br />
           <div className="btn__style">
-            <a href="/login">Connectez vous</a>
+            <a href="/">Connectez vous</a>
             <img src={ex} alt="" className="icon__style" />
           </div>
           <div className="container__swipper">
@@ -156,7 +161,7 @@ function Signup(props) {
               className="mySwiper"
             >
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -177,7 +182,7 @@ function Signup(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -198,7 +203,7 @@ function Signup(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -219,7 +224,7 @@ function Signup(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -267,14 +272,19 @@ function Signup(props) {
           <Input
             type="text"
             name="email"
-            value={email}
+            value={e_mail}
             onChange={onChangeEmail}
             validations={[required, validEmail]}
             placeholder="votre email"
           />
-          <PhoneInputCustom
-            name="phone_number"
-            validations={[required]}
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            defaultCountry="USA"
+            value={numtel}
+            onChange={setNumtel}
+            // placehorder="(xxx) xxxxxxxx"
+            placeholder="(xxx) xxxxxxxx"
           />
           <Input
             type={'password'}

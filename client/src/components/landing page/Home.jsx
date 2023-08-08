@@ -41,7 +41,7 @@ function Home() {
   return (
     <>
       <div className={styles.layout}>
-        <div className={styles.logo}>logo</div>
+        <div className={styles.logo}>EMTOOLS</div>
         <div className={styles.links_header}>
           <a href="/">Ressources</a>
           <a href="/">Pourquoi nous</a>

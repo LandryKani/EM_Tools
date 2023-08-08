@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import style from "./Employe.module.css";
 import { FaSearch } from "react-icons/fa";
 import { useState } from "react";
@@ -6,9 +6,18 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Tr from "./Tr";
 import Popup from "../../popups/Popup";
+import { useDispatch, useSelector } from "react-redux";
+
+import { listEmploye } from "../../../actions/auth";
 
 function Employe() {
   const [isOpen, setIsOpen] = useState(false);
+  const dispatch = useDispatch();
+  // const employes = useSelector((state) => state.employes);
+  const [loading, setLoading] = useState(false);
+  const [successful, setSuccessful] = useState(false);
+  const { isLoggedIn, employees } = useSelector((state) => state.auth);
+  const { message } = useSelector((state) => state.message);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -23,7 +32,7 @@ function Employe() {
     "Username",
     "Télephone",
     "E-mail",
-    "Password",
+    // "Password",
     "Status",
     "Actions",
   ];
@@ -31,29 +40,43 @@ function Employe() {
     {
       profil: "/img/employe4.png",
       username: "KANI igor",
-      telephone: "+237 695612037",
-      email: "landrykani020@gmail.com",
-      password: "azertyuioiuytr",
-      status: "Directeur",
+      numtel: "+237 695612037",
+      e_mail: "landrykani020@gmail.com",
+      roles: "DIRECTOR",
     },
     {
       profil: "/img/employe1.png",
       username: "Geovane Paul",
-      telephone: "+237678945123",
-      email: "GeovaneMbeus@gmail.com",
-      password: "sdfghgfd",
-      status: "Employe",
+      numtel: "+237678945123",
+      e_mail: "GeovaneMbeus@gmail.com",
+      roles: "EMPLOYE",
     },
     {
       profil: "/img/employe3.png",
       username: "David Dev",
-      telephone: "+237674851230",
-      email: "David@gmail.com",
-      password: "azertyuiopoiuytrd",
-      status: "Employe",
+      numtel: "+237674851230",
+      e_mail: "David@gmail.com",
+      roles: "EMPLOYE",
     },
     // Ajoutez d'autres entrées de données ici
   ];
+
+  // console.log({ employees });
+  const getAllEmploye = () => {
+    return async (dispatch) => {
+      try {
+        console.log("je suis dans le try");
+        await dispatch(listEmploye());
+      } catch (error) {
+        console.log(error);
+      }
+    };
+  };
+
+  useEffect(() => {
+    dispatch(getAllEmploye());
+  }, []);
+
   return (
     <>
       <div className={style.container_employees}>
@@ -76,7 +99,11 @@ function Employe() {
             </div>
           </div>
         </div>
-        <Popup isOpen={isOpen} handleIconClick={closePopup} />
+        <Popup
+          isOpen={isOpen}
+          handleIconClick={closePopup}
+          initialEmployee={undefined}
+        />
         <table className={style.table}>
           <thead className={style.header_employees}>
             {header.map((item, index) => (
@@ -84,15 +111,11 @@ function Employe() {
             ))}
           </thead>
           <tbody>
-            {data.map((row, rowIndex) => (
-              <Tr
-                profil={row.profil}
-                email={row.email}
-                username={row.username}
-                telephone={row.telephone}
-                password={row.password}
-                status={row.status}
-              />
+            {data?.map((row, rowIndex) => (
+              <Tr row={row} key={rowIndex} />
+            ))}
+            {employees?.map((row, rowIndex) => (
+              <Tr row={row} key={rowIndex} />
             ))}
           </tbody>
         </table>

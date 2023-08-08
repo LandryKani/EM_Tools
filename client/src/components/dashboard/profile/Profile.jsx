@@ -37,7 +37,7 @@ const vpasswordEquality = (value, test, asd, test3, test4) => {
   return !(asd?.password[0]?.value === value);
 };
 function Profile({ error, isChanged, isUsed, ...props }) {
-  const [phoneNumber, setPhoneNumber] = useState("");
+  // const [phoneNumber, setPhoneNumber] = useState("");
   const [value, setValue] = useState();
   let navigate = useNavigate();
 
@@ -47,7 +47,8 @@ function Profile({ error, isChanged, isUsed, ...props }) {
 
   const [userData, setUserData] = useState({});
   const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [e_mail, setE_mail] = useState("");
+  const [numtel, setNumtel] = useState();
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
   const [successful, setSuccessful] = useState(false);
@@ -57,9 +58,9 @@ function Profile({ error, isChanged, isUsed, ...props }) {
 
   
   const dispatch = useDispatch();
-  const handlePhoneChange = (value) => {
-    setPhoneNumber(value);
-  };
+  // const handlePhoneChange = (value) => {
+  //   setPhoneNumber(value);
+  // };
 
   const onChangeUsername = (e) => {
     const username = e.target.value;
@@ -75,8 +76,8 @@ function Profile({ error, isChanged, isUsed, ...props }) {
     setPassword1(password1);
   };
   const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
+    const e_mail = e.target.value;
+    setE_mail(e_mail);
   };
   console.log("required: ", required);
   const [messageStatus, setMessageStatus] = useState(false);
@@ -92,9 +93,10 @@ function Profile({ error, isChanged, isUsed, ...props }) {
   console.log({state})
   const getUserInformation = async() =>{
     try {
+      console.log("je suis dans le try")
       dispatch(await getProfile(state.auth?.user?.accessToken))
     } catch (error) {
-      
+      console.log(error)
     }
     console.log("utilisateur", userData)
   }
@@ -104,31 +106,28 @@ function Profile({ error, isChanged, isUsed, ...props }) {
   },[])
 
   useEffect(()=>{
-   setEmail(state.auth.profile.email)
+    setUsername(state.auth?.profile?.username??"")
+    setE_mail(state.auth?.profile?.e_mail??"")
+    setNumtel(state.auth?.profile?.numtel??"")
   },[state.auth.profile])
 
  
-  useEffect(()=>{
-    setUsername(state.auth.profile.username)
-   },[state.auth.profile])
+  
+  // console.log("check button",checkBtn.current.context._errors.length === 0)
 
   const handleProfile = async (e) => {
-    console.log("event", e)
     e.preventDefault();
 
     setSuccessful(false);
 
     form.current.validateAll();
     
-    console.log("check button",checkBtn.current.context._errors.length)
-    if (checkBtn.current.context._errors.length > 0 && form.current.isValid && form.current.isValid()){
-      // const valueofSingUser = registerEnterprise(username, password);
-
-      const payload = { username, email,phoneNumber, password };
+    if (checkBtn.current.context._errors.length === 0){
+      const payload = { username, e_mail ,numtel};
       console.log("value of profile :", payload);
-      await dispatch(registerProfile(payload));
+      await dispatch(registerProfile(payload,state.auth.profile.id));
       if (isLoggedIn) {
-        return <Navigate to="/dashboard/profile" />;
+        navigate("/dashboard/profile")
       }
       setSuccessful(true);
       // .then(() => {
@@ -205,7 +204,7 @@ function Profile({ error, isChanged, isUsed, ...props }) {
           <Input
             type="text"
             name="email"
-            value={email}
+            value={e_mail}
             onChange={onChangeEmail}
             validations={[required, validEmail]}
             placeholder="votre email"
@@ -213,11 +212,15 @@ function Profile({ error, isChanged, isUsed, ...props }) {
           />
         </div>
         <div className={style.right_block}>
-          <PhoneInputCustom
-            name="phone_number"
-            validations={[required]}
-            onChange={handlePhoneChange}
-            value={phoneNumber}
+        <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            // defaultCountry="US"
+            value={numtel}
+            onChange={setNumtel}
+            // placehorder="(xxx) xxxxxxxx"
+            placeholder="(xxx) xxxxxxxx"
+            className={style.phone}
           />
           <Input
             type={"password"}

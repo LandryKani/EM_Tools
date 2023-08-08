@@ -16,15 +16,18 @@ const catchError = (err,res)=>{
 }
 
 verifyToken = (req, res, next)=>{
-    let token = req.headers["x-acces-token"];
+    const token = req.headers["x-acces-token"];
+    console.log("this is the token",req.headers['x-access-token'])
+    console.log("this is the tokes", token)
 
-    if(!token){
+    if(!req.headers['x-access-token'] && !token){
+      
         return res.status(403).send({
             message: "No token provided !"
         })
     }
 
-    jwt.verify(token, config.secret, (err, decoded)=>{
+    jwt.verify(req.headers['x-access-token'] || token, config.secret, (err, decoded)=>{
         if(err){
             return catchError(err,res)
         }

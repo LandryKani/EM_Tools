@@ -8,18 +8,24 @@ import {
   SAVE_PROFILE,
   GET_INFORMATION,
   SAVE_EMPLOYE,
+  LIST_EMPLOYE,
+  DELETE_EMPLOYE,
+  GET_EMPLOYE_INFORMATION,
+  CREATE_PROJECT,
+  LIST_PROJECT,
 } from "../actions/type";
 
 const user = JSON.parse(localStorage.getItem("user"));
 
 const initialState = user
-  ? { isLoggedIn: true, user, }
+  ? { isLoggedIn: true, user }
   : {
       isLoggedIn: false,
       user: null,
       entreprise: null,
       profile: null,
-      updateInformation: null,
+      project: null,
+      employees: null,
     };
 
 export default function (state = initialState, action) {
@@ -56,18 +62,59 @@ export default function (state = initialState, action) {
     case SAVE_PROFILE:
       return {
         ...state,
-        updateInformation: payload,
+        user: {
+          ...state.auth.user,
+          payload,
+        },
       };
     case GET_INFORMATION:
       return {
         ...state,
         isLoggedIn: true,
-        profile:payload,
+        profile: payload,
       };
     case SAVE_EMPLOYE:
       return {
         ...state,
         employe: payload,
+      };
+    case LIST_EMPLOYE:
+      return {
+        ...state,
+        isLoggedIn: true,
+        employees: payload,
+      };
+      case LIST_PROJECT:
+        return {
+          ...state,
+          isLoggedIn: true,
+          project: payload,
+        };
+    case DELETE_EMPLOYE:
+      return {
+        ...state,
+        employees: state.employees.filter((x) => x.id !== action.payload.id),
+      };
+    case GET_EMPLOYE_INFORMATION:
+      return {
+        ...state,
+        isLoggedIn: true,
+        employees: state.employees.map((employee) =>
+          employee.id === action.payload.id
+            ? {
+                ...employee,
+                username: action.payload.username,
+                e_mail: action.payload.e_mail,
+                numtel: action.payload.numtel,
+              }
+            : employee
+        ),
+      };
+    case CREATE_PROJECT:
+      return{
+        ...state,
+        isLoggedIn: true,
+        project: payload,
       };
     case LOGOUT:
       return {

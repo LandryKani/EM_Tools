@@ -1,0 +1,69 @@
+.CircularProgressbar {
+
+  width: 100%;
+
+  vertical-align: middle;
+}
+
+.item_bloc_data .info_graph .color-purple .CircularProgressbar-path {
+  stroke: #6674BB;
+  stroke-linecap: round;
+  -webkit-transition: stroke-dashoffset 0.5s ease 0s;
+  transition: stroke-dashoffset 0.5s ease 0s;
+}
+
+.item_bloc_data .info_graph .color-green .CircularProgressbar-path {
+  stroke: #32A071;
+  stroke-linecap: round;
+  -webkit-transition: stroke-dashoffset 0.5s ease 0s;
+  transition: stroke-dashoffset 0.5s ease 0s;
+}
+
+.CircularProgressbar .CircularProgressbar-trail {
+  stroke: #d6d6d6;
+  /* Used when trail is not full diameter, i.e. when props.circleRatio is set */
+  stroke-linecap: round;
+}
+
+.item_bloc_data .info_graph .color-green .CircularProgressbar-text{
+  fill: #32A071;
+}
+
+.item_bloc_data .info_graph .color-purple .CircularProgressbar-text{
+  fill: #6674BB;
+}
+
+.CircularProgressbar .CircularProgressbar-text {
+  font-size: 20px;
+  dominant-baseline: middle;
+  text-anchor: middle;
+}
+
+.CircularProgressbar .CircularProgressbar-background {
+  fill: #d6d6d6;
+}
+
+/*
+ * Sample background styles. Use these with e.g.:
+ *
+ *   <CircularProgressbar
+ *     className="CircularProgressbar-inverted"
+ *     background
+ *     percentage={50}
+ *   />
+ */
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-background {
+  /* fill: #6674BB; */
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-text {
+  fill: #fff;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-path {
+  stroke: #fff;
+}
+
+.CircularProgressbar.CircularProgressbar-inverted .CircularProgressbar-trail {
+  stroke: transparent;
+}

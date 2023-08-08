@@ -8,8 +8,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
-import { register } from "../../actions/auth";
 import DateRangePickerExample from "../Date/DateRangePickerExample";
+
+import { createProject } from "../../actions/auth";
 
 const required = (value, field) => {
   return !value;
@@ -18,7 +19,7 @@ const validEmail = (value) => {
   return !isEmail(value);
 };
 
-const vusername = (value) => {
+const vtitre = (value) => {
   return value.length < 3 || value.length > 20;
 };
 
@@ -38,10 +39,8 @@ function PopupProject({ isOpen, handleIconClick }) {
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [password1, setPassword1] = useState("");
+  const [titre, setTitre] = useState("");
+  const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
   const [successful, setSuccessful] = useState(false);
   const { isLoggedIn, entreprise } = useSelector((state) => state.auth);
@@ -49,35 +48,20 @@ function PopupProject({ isOpen, handleIconClick }) {
 
   const dispatch = useDispatch();
 
-  const onChangeUsername = (e) => {
-    const username = e.target.value;
-    setUsername(username);
+  const onchangeTitre = (e) => {
+    const titre = e.target.value;
+    setTitre(titre);
   };
 
-  const onChangePassword = (e) => {
-    const password = e.target.value;
-    setPassword(password);
+  const onchangeDescription = (e) => {
+    const description = e.target.value;
+    setDescription(description);
   };
-  const onChangePasswordConfirm = (e) => {
-    const password1 = e.target.value;
-    setPassword1(password1);
-  };
-  const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
-  };
+
   console.log("required: ", required);
   const [messageStatus, setMessageStatus] = useState(false);
-  useEffect(() => {
-    if (password === "" && password1 === "") {
-      setTimeout(() => {
-        setMessageStatus(false);
-      }, 8000);
-      setMessageStatus(true);
-    }
-  }, [password, password1]);
 
-  const handleRegister = (e) => {
+  const handleCreateProject = async (e) => {
     e.preventDefault();
 
     setSuccessful(false);
@@ -85,22 +69,24 @@ function PopupProject({ isOpen, handleIconClick }) {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      // const valueofSingUser = registerEnterprise(username, password);
-
-      const payload = { ...(entreprise ? entreprise : {}), username, password };
-      console.log("value of SignUser :", payload);
-      dispatch(register(payload))
-        .then((response) => {
-          console.log({ response });
-          console.log("this for the response on the register entreprise");
-          navigate("/");
-          window.location.reload();
-          setSuccessful(true);
-        })
-        .catch((error) => {
-          console.log("this is the catch of the register data", error);
-          setSuccessful(false);
-        });
+      const payload = { titre, description };
+      console.log("value of project :", payload);
+      await dispatch(createProject(payload));
+      if (isLoggedIn) {
+        handleIconClick()
+        navigate("/dashboard/projects");
+      }
+      setSuccessful(true);
+      // .then(() => {
+      //   // console.log({ response });
+      //   // console.log("this for the response on the register entreprise");
+      //   // window.location.reload();
+      // })
+      // .catch((error) => {
+      //   console.log("this is the catch of the register data", error);
+      // });
+    } else {
+      setSuccessful(false);
     }
   };
   return (
@@ -111,13 +97,17 @@ function PopupProject({ isOpen, handleIconClick }) {
             <img src={projectIco} alt="" className={style.projectIco} />
             <h2>Création d’un projet</h2>
           </div>
-          <Form className={style.body}>
+          <Form
+            className={style.body}
+            onSubmit={handleCreateProject}
+            ref={form}
+          >
             <Input
               type="text"
               name="Nom du projet"
-              value={username}
-              onChange={onChangeUsername}
-              validations={[required, vusername]}
+              value={titre}
+              onChange={onchangeTitre}
+              validations={[required, vtitre]}
               placeholder="Nom du projet"
               className="input__style"
             />
@@ -126,6 +116,8 @@ function PopupProject({ isOpen, handleIconClick }) {
               id=""
               cols="30"
               rows="10"
+              value={description}
+              onChange={onchangeDescription}
               placeholder="Description"
               className={style.description}
             ></textarea>
@@ -133,6 +125,8 @@ function PopupProject({ isOpen, handleIconClick }) {
             <button type="submit" className={style.btn__submit_form}>
               Créer le projet
             </button>
+            <CheckButton style={{ display: "none" }} ref={checkBtn} />
+            {message && <div className="input__style__err">{message}</div>}
           </Form>
           <img
             src={close}

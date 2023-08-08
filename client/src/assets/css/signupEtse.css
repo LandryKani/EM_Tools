@@ -339,7 +339,7 @@
   display: flex !important;
   justify-content: center !important;
   align-items: center !important;
-  margin-left: 12%;
+  /* margin-left: 12%; */
 }
 .second_block .PhoneInputCountry {
   position: relative;
@@ -380,7 +380,7 @@
   /* border: 3px solid rgba(241, 252, 255, 0.5); */
   border: 1px solid rgb(80, 98, 115) !important;
   border-radius: 5px;
-  /* width: 56%; */
+  width: 56%;
   padding: 13px;
   color: #b3c6d8;
   font-weight: 400;

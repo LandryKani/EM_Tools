@@ -1,4 +1,4 @@
-import React,{useState} from "react";
+import React, { useState, useEffect } from "react";
 import style from "./Overview.module.css";
 import notification from "../../assets/img/alert.svg";
 import bio from "../../assets/img/bio.png";
@@ -16,48 +16,70 @@ import Task3 from "../pages/Tasks/Task3";
 import Task4 from "../pages/Tasks/Task4";
 import Task5 from "../pages/Tasks/Task5";
 import PopupProject from "../popups/PopupProject";
+import { useDispatch, useSelector } from "react-redux";
+
+import { listProject } from "../../actions/auth";
 
 const menu = [
   {
     id: generateUUID(),
     img: bio,
     title: "ChezBio",
-    components: <Task1/>,
+    components: <Task1 />,
   },
   {
     img: berceuse,
     title: "Berceuses des étoi...",
     id: generateUUID(),
-    components: <Task2/>,
+    components: <Task2 />,
   },
   {
     img: cake,
     title: "Sih’s Cakes",
     id: generateUUID(),
-    components: <Task3/>,
+    components: <Task3 />,
   },
-  {
-    img: aigle,
-    title: "El4Ever",
-    id: generateUUID(),
-    components: <Task4/>,
-  },
-  {
-    img: diego,
-    title: "Diego Lola",
-    id: generateUUID(),
-    components: <Task1/>,
-  },
-  {
-    img: bxb,
-    title: "BxB Design",
-    id: generateUUID(),
-    components: <Task5/>,
-  },
+  // {
+  //   img: aigle,
+  //   title: "El4Ever",
+  //   id: generateUUID(),
+  //   components: <Task4/>,
+  // },
+  // {
+  //   img: diego,
+  //   title: "Diego Lola",
+  //   id: generateUUID(),
+  //   components: <Task1/>,
+  // },
+  // {
+  //   img: bxb,
+  //   title: "BxB Design",
+  //   id: generateUUID(),
+  //   components: <Task5/>,
+  // },
 ];
 function Project() {
   const [currentComponent, setCurrentComponent] = React.useState(menu[0]);
   const [isOpen, setIsOpen] = useState(false);
+
+  const dispatch = useDispatch();
+  const { isLoggedIn, project } = useSelector((state) => state.auth);
+
+  const getAllProjects = () => {
+    return async (dispatch) => {
+      try {
+        console.log("je suis dans le try");
+        await dispatch(listProject());
+      } catch (error) {
+        console.log(error);
+      }
+      // window.location.reload()
+    };
+  };
+
+  useEffect(() => {
+    dispatch(getAllProjects());
+  }, []);
 
   const togglePopup = () => {
     setIsOpen(!isOpen);
@@ -74,6 +96,10 @@ function Project() {
           <p>(8 employés)</p>
         </div>
         <div className={style.notif_admin}>
+        <div className={style.create_task} onClick={togglePopup}>
+            <FontAwesomeIcon icon={faPlus} className={style.faPlus_Ico} />
+            <p>Assigner une tâche</p>
+          </div>
           <img src={notification} alt="" />
           <div className={style.user}></div>
           <div className={style.profile_user}>
@@ -107,12 +133,34 @@ function Project() {
               </div>
             );
           })}
+          {Array.isArray(project) &&
+            project.map((elt) => (
+              <div
+                onClick={() => setCurrentComponent(elt)}
+                className={`${
+                  elt.id === currentComponent.id
+                    ? style.menuActive
+                    : style.menuInactive
+                }`}
+                key={elt.id} // Assurez-vous d'ajouter une clé unique pour chaque élément du tableau
+              >
+                <img src={elt.img} alt="" className={style.descProject} />
+                <p>{elt.titre}</p>
+                <FontAwesomeIcon
+                  icon={faArrowRightLong}
+                  className={`${
+                    elt.id === currentComponent.id
+                      ? style.fontawesomeActive
+                      : style.fontawesomeInactive
+                  }`}
+                />
+              </div>
+            ))}
           <div className={style.create_project} onClick={togglePopup}>
-          <FontAwesomeIcon
-                  icon={faPlus} className={style.faPlus_Ico}/>
-                  <p>Créer un projet</p>
+            <FontAwesomeIcon icon={faPlus} className={style.faPlus_Ico} />
+            <p>Créer un projet</p>
           </div>
-          <PopupProject isOpen={isOpen} handleIconClick={closePopup}/>
+          <PopupProject isOpen={isOpen} handleIconClick={closePopup} />
         </div>
         <div className={style.container_project}>
           {currentComponent.components}

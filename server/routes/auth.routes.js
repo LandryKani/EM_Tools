@@ -11,18 +11,19 @@ module.exports = function(app) {
     next();
   });
 
-  app.post(
-    "/api/auth/signup",
-    [
-      verifySignUp.checkDuplicateUsernameOrEmail,
-      verifySignUp.checkRolesExisted
-    ],
-    controller.signup
-  );
+  // app.post(
+  //   "/api/auth/signup",
+  //   [
+  //     verifySignUp.checkDuplicateUsernameOrEmail,
+  //     verifySignUp.checkRolesExisted
+  //   ],
+  //   controller.signup
+  // );
 
   app.post("/api/auth/signin", controller.signin);
   app.get("/api/getInformation",[authJwt.verifyToken],controller.getInformation)
   app.post("/api/auth/refreshtoken", controller.refreshToken);
   app.post('/api/reset-password/email',controller.sendPasswordResetEmail)
   app.post('/api/reset-password/:resetToken',controller.resetPassword)
+  
 };

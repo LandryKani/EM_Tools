@@ -1,0 +1,240 @@
+.container_dashboard {
+    margin-right: 20px;
+}
+
+.container_dashboard .head_dashoard {
+    display: flex;
+    justify-content: end;
+    margin: 20px 10px auto auto;
+}
+
+.container_dashboard .head_dashoard a {
+    padding: 6px;
+    word-wrap: break-word;
+}
+
+.container_dashboard .item_total_ads .info_text {
+    color: blue;
+}
+
+.container_dashboard .item_total_ads .info_text span {
+    margin-right: 5px;
+    font-size: 40px;
+}
+
+.container_dashboard .block_info_data {
+    justify-content: space-between;
+    gap: 15px;
+    /* margin-top: 20px; */
+    display: flex;
+}
+
+.container_dashboard .block_info_data .color-green {
+    color: #32A071;
+    ;
+}
+
+.container_dashboard .block_info_data .color-purple {
+    color: #6674BB;
+}
+
+.container_dashboard .block_info_data .item_bloc_data {
+    padding: 20px;
+    justify-content: space-between;
+    /* max-width: 400px;
+    width: 100%; */
+    display: flex;
+    border: 1.5px solid #ebe7e7;
+    border-radius: 15px;
+}
+
+
+.container_dashboard .block_info_data .item_bloc_data .info_graph {
+    display: flex;
+    width: 100px;
+    align-items: center;
+}
+
+.container_dashboard .block_info_data .item_bloc_data .info_text,
+.container_dashboard .block_info_data .item_bloc_data .info_activation,
+.container_dashboard .block_info_data .item_bloc_data .info_text_activation {
+    display: grid;
+    gap: 37px;
+    font-weight: 600;
+}
+
+.container_dashboard .block_info_data .item_bloc_data .info_activation a {
+    padding: 6px;
+    font-size: 14px;
+    font-weight: 600;
+}
+
+.container_dashboard .block_info_data h2,
+.container_dashboard .block_info_data h4 {
+    font-weight: 1000;
+}
+
+.container_dashboard .block_info_data h2 {
+    color: black;
+}
+
+.container_dashboard .block_info_data .item_bloc_data .info_activation .data_active,
+.container_dashboard .block_info_data .item_bloc_data .info_activation .data_inactive {
+    align-items: center;
+    justify-content: center;
+    gap: 13px;
+}
+
+.container_dashboard .block_info_data .item_bloc_data .info_activation .data_active h3 {
+    color: #2ec1ac;
+}
+
+.container_dashboard .block_info_data .item_bloc_data .info_activation .data_inactive h3 {
+    color: #ff9f66;
+}
+
+
+.container_dashboard .bloc_diagramme_phone {
+    margin-top: 20px;
+    justify-content: space-between;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_diagram {
+    border: 1.5px solid #ebe7e7;
+    border-radius: 15px;
+    padding: 20px;
+    width: fit-content;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_diagram .bloc_diagram_header {
+    gap: 30px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    /* margin-bottom: 50px; */
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_diagram .bloc_diagram_header input {
+    background-color: #fafafa;
+    padding: 8px;
+    border-radius: 6px;
+    border: 1px solid #dee3e7;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_diagram .bloc_diagram_header .bloc_date {
+    gap: 11px;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_phone .image-title {
+    text-align: center;
+    padding-inline: 10px;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_diagram .Boc_chart {
+    margin-top: 20px;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_diagram .Boc_chart .Bloc_pieChart {
+    display: none;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_phone .image-title h1 {
+    font-size: 23px;
+    color: #788da0;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_phone {
+    margin-top: 20px;
+    position: absolute;
+    right: 0px;
+    top: 27%;
+    width: 30%;
+    height: 30%;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_phone img {
+    width: 78%;
+    margin-left: 37px;
+}
+
+.container_dashboard .bloc_diagramme_phone .bloc_phone .circle-phone {
+    width: 320px;
+    height: 320px;
+    margin-bottom: 15px;
+}
+
+@media (max-width : 1200px) {
+
+    .container_dashboard .bloc_diagramme_phone {
+        display: grid;
+    }
+}
+
+@media (max-width : 800px) {
+
+    .container_dashboard .block_info_data {
+        display: grid;
+    }
+
+    .container_dashboard .bloc_diagramme_phone {
+        display: grid;
+        justify-content: center;
+        margin-top: 30px;
+    }
+
+    .container_dashboard .block_info_data .item_bloc_data {
+        max-width: none;
+    }
+
+    .container_dashboard .block_info_data .item_bloc_data .info_text,
+    .container_dashboard .block_info_data .item_bloc_data .info_activation,
+    .container_dashboard .block_info_data .item_bloc_data .info_text_activation {
+        width: 100%;
+    }
+
+    .container_dashboard .block_info_data .item_bloc_data .info_graph {
+        width: 50%;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram .bloc_diagram_header {
+        display: grid;
+        gap: 10px;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram .bloc_diagram_header .bloc_date {
+        display: grid;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram .bloc_diagram_header input {
+        height: 35px;
+        width: 200px;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_phone .image-title h1 {
+        font-size: 14px;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_phone .circle-phone {
+        width: 250px;
+        height: 250px;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram .Boc_chart .Bloc_barChart {
+        display: none;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram .Boc_chart .Bloc_pieChart .recharts-wrapper {
+        width: 90% !important;
+        height: 90% !important;
+    }
+
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram .Boc_chart .Bloc_pieChart {
+        display: block;
+    }
+}
+
+@media (max-width : 500px) {
+    .container_dashboard .bloc_diagramme_phone .bloc_diagram {
+        border-color: #fff;
+    }
+}

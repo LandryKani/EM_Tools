@@ -9,7 +9,8 @@ import profile from "../../assets/img/profile.png";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Pagination, Zoom } from "swiper";
 import "react-phone-number-input/style.css";
-import PhoneInputCustom from "../FormFIelds/PhoneInput";
+import PhoneInput from "react-phone-number-input";
+// import PhoneInputCustom from "../FormFIelds/PhoneInput";
 // import Form from "react-validation/build/form";
 import "swiper/css";
 import "swiper/css/pagination";
@@ -45,10 +46,16 @@ function SignupEnterprise(props) {
   const [email, setEmail] = useState("");
   const [localisation, setLocalisation] = useState("");
   const [tel, setTel] = useState();
-  const [domaine, setDomaine] = useState("");
+  // const [domaine, setDomaine] = useState("");
   const [loading, setLoading] = useState(false);
   const { message } = useSelector((state) => state.message);
 
+  const [domaine, setDomaine] = useState('');
+
+  const handleChange = (event) => {
+    const { value } = event.target;
+    setDomaine(value);
+  }; 
   const onChangeName = (e) => {
     const name = e.target.value;
     setNom(name);
@@ -65,10 +72,10 @@ function SignupEnterprise(props) {
   //   const tel = e.target.value;
   //   // setTel(tel);
   // };
-  const onChangeDomaine = (e) => {
-    const domaine = e.target.value;
-    setDomaine(domaine);
-  };
+  // const onChangeDomaine = (e) => {
+  //   const domaine = e.target.value;
+  //   setDomaine(domaine);
+  // };
   // console.log("required: ", required);
   const handleRegisterEtse = async (e) => {
     e.preventDefault();
@@ -103,17 +110,17 @@ function SignupEnterprise(props) {
           <br />
           <br />
           <div className="btn__style">
-            <a href="/login">Connectez vous</a>
+            <a href="/">Connectez vous</a>
             <img src={ex} alt="" className="icon__style" />
           </div>
           <div className="container__swipper">
             <Swiper
-              spaceBetween={265}
-              grabCursor={true}
-              slidesPerView={3}
-              centeredSlides={true}
-              loop={true}
-              speed={2000}
+               spaceBetween={265}
+               grabCursor={true}
+               slidesPerView={3}
+               centeredSlides={true}
+               loop={true}
+               speed={2000}
               effect="zoom"
               autoplay={{
                 delay: 2000,
@@ -126,7 +133,7 @@ function SignupEnterprise(props) {
               className="mySwiper"
             >
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -147,7 +154,7 @@ function SignupEnterprise(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -168,7 +175,7 @@ function SignupEnterprise(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -189,7 +196,7 @@ function SignupEnterprise(props) {
                 </div>
               </SwiperSlide>
               <SwiperSlide>
-                <div className="swiper-element" style={{ marginRight: '200%' }}>
+                <div className="swiper-element">
                   <div className="text__swiper">
                     Sed ut perspiciatis unde omnis iste natus error sit
                     voluptatem accusantium doloremque laudantium, totam rem
@@ -235,12 +242,12 @@ function SignupEnterprise(props) {
             className="input__style"
             placeholder="Nom entreprise"
           />
-          <select className="select_domain">
-            <option value={domaine} onChange={onChangeDomaine}>Commerce</option>
-            <option value={domaine} onChange={onChangeDomaine}>Marketing</option>
-            <option value={domaine} onChange={onChangeDomaine}>Informatique</option>
-            <option value={domaine} onChange={onChangeDomaine}>Banque & Finance</option>
-            <option value={domaine} onChange={onChangeDomaine}>Autres</option>
+          <select className="select_domain" value={domaine} onChange={handleChange}>
+            <option value="Commerce">Commerce</option>
+            <option value="Marketing">Marketing</option>
+            <option value="Informatique">Informatique</option>
+            <option value="Banque & Finance">Banque & Finance</option>
+            <option value="Autres">Autres</option>
           </select>
           <Input
             type="text"
@@ -250,10 +257,21 @@ function SignupEnterprise(props) {
             validations={[required, validEmail]}
             placeholder="votre email"
           />
-          <PhoneInputCustom
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            defaultCountry="CMR"
+            value={tel}
+            onChange={setTel}
+            validations={[required]}
+            // placehorder="(xxx) xxxxxxxx"
+            placeholder="(xxx) xxxxxxxx"
+
+          />
+          {/* <PhoneInputCustom
             name="phone_number"
             validations={[required]}
-          />
+          /> */}
           <Input
             type="text"
             name="localisation"

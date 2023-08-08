@@ -6,10 +6,10 @@ module.exports = (sequelize, Sequelize) => {
       username: {
         type: Sequelize.STRING,
       },
-      email: {
+      e_mail: {
         type: Sequelize.STRING,
       },
-      tel: {
+      numtel: {
         type: Sequelize.STRING,
       },
       password: {

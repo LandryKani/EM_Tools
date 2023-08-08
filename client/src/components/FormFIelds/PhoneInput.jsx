@@ -14,10 +14,10 @@ const CustomPhoneInput = ({ error, isChanged, isUsed, name, ...props }) => {
       countryCallingCodeEditable={false}
       name={name}
       // defaultCountry="CM"
-      style={{
-        display: "flex",
-        alignItems: "center",
-      }}
+      // style={{
+      //   display: "flex",
+      //   alignItems: "center",
+      // }}
       value={phoneNumber}
       onChange={(value) => {
         setPhoneNumber(value);
@@ -51,13 +51,13 @@ const CustomInput = React.forwardRef(
         name={name}
         ref={ref}
         value={value}
-        style={{
-          display: "flex",
-          padding: "10px",
-          border: 'none',
-          outline: 'none',
-          border: focus ? "solid 2px #506273" : "solid 1px #506273",
-        }}
+        // style={{
+        //   display: "flex",
+        //   padding: "10px",
+        //   border: 'none',
+        //   outline: 'none',
+        //   border: focus ? "solid 2px #506273" : "solid 1px #506273",
+        // }}
         onChange={(event) => {
           //   console.log("value: ", event.target.value);
           onChange(value);

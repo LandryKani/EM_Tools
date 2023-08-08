@@ -4,13 +4,15 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import Input from "../FormFIelds/Input";
 import Form from "react-validation/build/form";
-import PhoneInputCustom from "../FormFIelds/PhoneInput";
+import "../dashboard/profile/phone.css";
+import PhoneInput from "react-phone-number-input";
+// import PhoneInputCustom from "../FormFIelds/PhoneInput";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import CheckButton from "react-validation/build/button";
 import { isEmail } from "validator";
 
-import { register } from "../../actions/auth";
+import { registerEmploye, updateEmploye } from "../../actions/auth";
 
 const required = (value, field) => {
   return !value;
@@ -32,15 +34,22 @@ const vpasswordEquality = (value, test, asd, test3, test4) => {
   return !(asd?.password[0]?.value === value);
 };
 
-function Popup({ isOpen, handleIconClick, error, isChanged, isUsed }) {
-  const [tel, setTel] = useState();
+function Popup({
+  isOpen,
+  handleIconClick,
+  error,
+  isChanged,
+  isUsed,
+  initialEmployee,
+}) {
+  const [numtel, setNumtel] = useState(initialEmployee?.numtel ?? undefined);
   let navigate = useNavigate();
 
   const form = useRef();
   const checkBtn = useRef();
 
-  const [username, setUsername] = useState("");
-  const [email, setEmail] = useState("");
+  const [username, setUsername] = useState(initialEmployee?.username ?? "");
+  const [e_mail, setE_mail] = useState(initialEmployee?.e_mail ?? "");
   const [password, setPassword] = useState("");
   const [password1, setPassword1] = useState("");
   const [loading, setLoading] = useState(false);
@@ -64,13 +73,13 @@ function Popup({ isOpen, handleIconClick, error, isChanged, isUsed }) {
     setPassword1(password1);
   };
   const onChangeEmail = (e) => {
-    const email = e.target.value;
-    setEmail(email);
+    const e_mail = e.target.value;
+    setE_mail(e_mail);
   };
 
-  const onChangePhoneNumber = (e) =>{
-    setTel(tel)
-  }
+  const onChangePhoneNumber = (e) => {
+    setNumtel(numtel);
+  };
   console.log("required: ", required);
   const [messageStatus, setMessageStatus] = useState(false);
   useEffect(() => {
@@ -82,7 +91,7 @@ function Popup({ isOpen, handleIconClick, error, isChanged, isUsed }) {
     }
   }, [password, password1]);
 
-  const handleRegisterEmploye = (e) => {
+  const handleRegisterEmploye = async (e) => {
     e.preventDefault();
 
     setSuccessful(false);
@@ -90,24 +99,24 @@ function Popup({ isOpen, handleIconClick, error, isChanged, isUsed }) {
     form.current.validateAll();
 
     if (checkBtn.current.context._errors.length === 0) {
-      // const valueofSingUser = registerEnterprise(username, password);
+      const payload = { username, e_mail, numtel, password };
+      console.log("value of profile :", payload);
 
-      const payload = { ...(entreprise ? entreprise : {}), username, password };
-      console.log("value of SignUser :", payload);
-      dispatch(register(payload))
-        .then((response) => {
-          console.log({ response });
-          console.log("this for the response on the register entreprise");
-          navigate("/");
-          window.location.reload();
-          setSuccessful(true);
-        })
-        .catch((error) => {
-          console.log("this is the catch of the register data", error);
-          setSuccessful(false);
-        });
+      await dispatch(initialEmployee ? updateEmploye(initialEmployee.id, payload) : registerEmploye(payload));
+      // await dispatch(updateEmploye(initialEmployee.id,payload))
+
+      if (isLoggedIn) {
+        navigate("/dashboard/employees");
+        // window.location.reload();
+      }
+      setSuccessful(true);
+      handleIconClick();
+    } else {
+      setSuccessful(false);
     }
   };
+
+  
   return (
     <>
       <div className={[style.popup, isOpen && style.popup_open].join(" ")}>
@@ -116,7 +125,11 @@ function Popup({ isOpen, handleIconClick, error, isChanged, isUsed }) {
           onSubmit={handleRegisterEmploye}
           ref={form}
         >
-          <h2>Ajouter un employé</h2>
+          <h2>
+            {initialEmployee
+              ? "Modifier les informations"
+              : "Ajouter un employé"}
+          </h2>
           <Input
             type="text"
             name="username"
@@ -129,37 +142,46 @@ function Popup({ isOpen, handleIconClick, error, isChanged, isUsed }) {
           <Input
             type="text"
             name="email"
-            value={email}
+            value={e_mail}
             onChange={onChangeEmail}
             validations={[required, validEmail]}
             placeholder="votre email"
             className="input__style"
           />
-         <PhoneInputCustom
-            name="phone_number"
-            validations={[required]}
-            className={style.input_stylePhone}
+          <PhoneInput
+            international
+            countryCallingCodeEditable={false}
+            // defaultCountry="US"
+            value={numtel}
+            onChange={setNumtel}
+            placeholder="(xxx) xxxxxxxx"
+            className={style.phone}
           />
-          <Input
-            type={"password"}
-            value={password}
-            name={"password"}
-            onChange={onChangePassword}
-            validations={[required, vpassword]}
-            placeholder="votre mote de passe"
-            className="input__style"
-          />
-          <Input
-            type={"password"}
-            value={password1}
-            name={"confirm_password"}
-            onChange={onChangePasswordConfirm}
-            validations={[required, vpassword, vpasswordEquality]}
-            placeholder="confirmer mot de passe"
-            className="input__style"
-          />
+          {initialEmployee ? null : (
+            <>
+              <Input
+                type={"password"}
+                value={password}
+                name={"password"}
+                onChange={onChangePassword}
+                validations={[required, vpassword]}
+                placeholder="votre mote de passe"
+                className="input__style"
+              />
+              <Input
+                type={"password"}
+                value={password1}
+                name={"confirm_password"}
+                onChange={onChangePasswordConfirm}
+                validations={[required, vpassword, vpasswordEquality]}
+                placeholder="confirmer mot de passe"
+                className="input__style"
+              />
+            </>
+          )}
+
           <button type="submit" className={style.btn__submit_form}>
-            Créer
+            {initialEmployee ? "Modifier" : "Créer"}
           </button>
           <FontAwesomeIcon
             icon={faPlus} // L'icône FontAwesome de style 'plus'

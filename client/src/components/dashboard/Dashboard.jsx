@@ -11,17 +11,18 @@ import Signup from "../../components/Auth/Signup";
 import SignupEnterprise from "../../components/Auth/SignupEnterprise";
 import FinalizeSignup from "../../components/Auth/FinalizeSignup";
 import Home from "../../components/landing page/Home";
-import { Route, useLocation, Routes } from "react-router-dom";
+import { Route, useLocation, Routes, Link} from "react-router-dom";
 import Project from "./Project";
 import Profile from "./profile/Profile";
 import Employe from "./employe/Employe";
+import Overviews from "../pages/Dashboard/Overviews";
 
 const menus = [
   {
     src: overviews,
     title: "Overviews",
     href: "/dashboard",
-    components: <div>Overviews</div>,
+    components: <Overviews/>,
   },
   {
     src: employes,
@@ -77,8 +78,8 @@ function Dashboard() {
               <div className={style.aside}>
                 {menus.map((menu) => {
                   return (
-                    <a
-                      href={menu.href}
+                    <Link
+                      to={menu.href}
                       className={[
                         style.menu,
                         location.pathname === menu.href && style.menuActive,
@@ -86,7 +87,7 @@ function Dashboard() {
                     >
                       <img src={menu.src} alt="" />
                       <p>{menu.title}</p>
-                    </a>
+                    </Link>
                   );
                 })}
               </div>
